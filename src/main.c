@@ -47,7 +47,7 @@ const u8 sp_palette0[16] = {0x54, // 0 - black
 //const u8 sp_palette1[16] = {  0x4d, 0x54, 0x40, 0x5c, 0x4c, 0x4e, 0x4A, 0x52, 0x56, 0x5e, 0x53, 0x5f, 0x55, 0x58, 0x44, 0x4b }; // Palette with transparent color
 
 // Máscara de transparencia
-cpctm_createTransparentMaskTable(g_tablatrans, 0x100, M0, 0);
+cpctm_createTransparentMaskTable(g_tablatrans, 0xA000, M0, 0);
 
 
 //////////////////////////////////////////////////////////////////
