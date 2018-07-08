@@ -1,0 +1,1047 @@
+                              1 ;--------------------------------------------------------
+                              2 ; File Created by SDCC : free open source ANSI-C Compiler
+                              3 ; Version 3.6.8 #9946 (Linux)
+                              4 ;--------------------------------------------------------
+                              5 	.module tools
+                              6 	.optsdcc -mz80
+                              7 	
+                              8 ;--------------------------------------------------------
+                              9 ; Public variables in this module
+                             10 ;--------------------------------------------------------
+                             11 	.globl _clearWindow
+                             12 	.globl _clearScreen
+                             13 	.globl _fast_abs
+                             14 	.globl _cpct_getScreenPtr
+                             15 	.globl _cpct_drawSprite
+                             16 	.globl _cpct_drawSolidBox
+                             17 	.globl _cpct_px2byteM0
+                             18 	.globl _cpct_memset
+                             19 	.globl _delay
+                             20 	.globl _distance
+                             21 	.globl _sign
+                             22 	.globl _collision
+                             23 	.globl _abs
+                             24 	.globl _drawFrame
+                             25 	.globl _drawWindow
+                             26 	.globl _drawWindow2
+                             27 ;--------------------------------------------------------
+                             28 ; special function registers
+                             29 ;--------------------------------------------------------
+                             30 ;--------------------------------------------------------
+                             31 ; ram data
+                             32 ;--------------------------------------------------------
+                             33 	.area _DATA
+                             34 ;--------------------------------------------------------
+                             35 ; ram data
+                             36 ;--------------------------------------------------------
+                             37 	.area _INITIALIZED
+                             38 ;--------------------------------------------------------
+                             39 ; absolute external ram data
+                             40 ;--------------------------------------------------------
+                             41 	.area _DABS (ABS)
+                             42 ;--------------------------------------------------------
+                             43 ; global & static initialisations
+                             44 ;--------------------------------------------------------
+                             45 	.area _HOME
+                             46 	.area _GSINIT
+                             47 	.area _GSFINAL
+                             48 	.area _GSINIT
+                             49 ;--------------------------------------------------------
+                             50 ; Home
+                             51 ;--------------------------------------------------------
+                             52 	.area _HOME
+                             53 	.area _HOME
+                             54 ;--------------------------------------------------------
+                             55 ; code
+                             56 ;--------------------------------------------------------
+                             57 	.area _CODE
+                             58 ;src/util/tools.c:32: void delay(u32 cycles)
+                             59 ;	---------------------------------
+                             60 ; Function delay
+                             61 ; ---------------------------------
+   0000                      62 _delay::
+                             63 ;src/util/tools.c:35: for (i = 0; i < cycles; i++)
+   0000 01 00 00      [10]   64 	ld	bc,#0x0000
+   0003 11 00 00      [10]   65 	ld	de,#0x0000
+   0006                      66 00103$:
+   0006 21 02 00      [10]   67 	ld	hl, #2
+   0009 39            [11]   68 	add	hl, sp
+   000A 79            [ 4]   69 	ld	a, c
+   000B 96            [ 7]   70 	sub	a, (hl)
+   000C 78            [ 4]   71 	ld	a, b
+   000D 23            [ 6]   72 	inc	hl
+   000E 9E            [ 7]   73 	sbc	a, (hl)
+   000F 7B            [ 4]   74 	ld	a, e
+   0010 23            [ 6]   75 	inc	hl
+   0011 9E            [ 7]   76 	sbc	a, (hl)
+   0012 7A            [ 4]   77 	ld	a, d
+   0013 23            [ 6]   78 	inc	hl
+   0014 9E            [ 7]   79 	sbc	a, (hl)
+   0015 D0            [11]   80 	ret	NC
+                             81 ;src/util/tools.c:39: __endasm;
+   0016 76            [ 4]   82 	halt
+                             83 ;src/util/tools.c:35: for (i = 0; i < cycles; i++)
+   0017 0C            [ 4]   84 	inc	c
+   0018 20 EC         [12]   85 	jr	NZ,00103$
+   001A 04            [ 4]   86 	inc	b
+   001B 20 E9         [12]   87 	jr	NZ,00103$
+   001D 1C            [ 4]   88 	inc	e
+   001E 20 E6         [12]   89 	jr	NZ,00103$
+   0020 14            [ 4]   90 	inc	d
+   0021 18 E3         [12]   91 	jr	00103$
+                             92 ;src/util/tools.c:78: u16 distance (u16 x1, u16 y1, u16 x2, u16 y2)
+                             93 ;	---------------------------------
+                             94 ; Function distance
+                             95 ; ---------------------------------
+   0023                      96 _distance::
+   0023 DD E5         [15]   97 	push	ix
+   0025 DD 21 00 00   [14]   98 	ld	ix,#0
+   0029 DD 39         [15]   99 	add	ix,sp
+                            100 ;src/util/tools.c:80: u16 x = fast_abs( x2 - x1 );  // x = valor absoluto de x2 – x1, es decir, la distancia entre las x
+   002B DD 7E 08      [19]  101 	ld	a, 8 (ix)
+   002E DD 96 04      [19]  102 	sub	a, 4 (ix)
+   0031 6F            [ 4]  103 	ld	l, a
+   0032 DD 7E 09      [19]  104 	ld	a, 9 (ix)
+   0035 DD 9E 05      [19]  105 	sbc	a, 5 (ix)
+   0038 67            [ 4]  106 	ld	h, a
+   0039 CDr00r00      [17]  107 	call	_fast_abs
+   003C 4D            [ 4]  108 	ld	c, l
+   003D 44            [ 4]  109 	ld	b, h
+                            110 ;src/util/tools.c:81: u16 y = fast_abs( y2 - y1 );  // y = valor absoluto de y2 – y1, es decir, la distancia entre las y
+   003E DD 7E 0A      [19]  111 	ld	a, 10 (ix)
+   0041 DD 96 06      [19]  112 	sub	a, 6 (ix)
+   0044 6F            [ 4]  113 	ld	l, a
+   0045 DD 7E 0B      [19]  114 	ld	a, 11 (ix)
+   0048 DD 9E 07      [19]  115 	sbc	a, 7 (ix)
+   004B 67            [ 4]  116 	ld	h, a
+   004C C5            [11]  117 	push	bc
+   004D CDr00r00      [17]  118 	call	_fast_abs
+   0050 C1            [10]  119 	pop	bc
+                            120 ;src/util/tools.c:83: u16 min = x < y ? x : y; // Si x < y min = x, si no, vale y. Es decir, el menor de los 2
+   0051 79            [ 4]  121 	ld	a, c
+   0052 95            [ 4]  122 	sub	a, l
+   0053 78            [ 4]  123 	ld	a, b
+   0054 9C            [ 4]  124 	sbc	a, h
+   0055 30 04         [12]  125 	jr	NC,00103$
+   0057 59            [ 4]  126 	ld	e, c
+   0058 50            [ 4]  127 	ld	d, b
+   0059 18 02         [12]  128 	jr	00104$
+   005B                     129 00103$:
+   005B 5D            [ 4]  130 	ld	e, l
+   005C 54            [ 4]  131 	ld	d, h
+   005D                     132 00104$:
+                            133 ;src/util/tools.c:85: return ( x + y - (min >> 1) - (min >> 2) + (min >> 4) );
+   005D 09            [11]  134 	add	hl, bc
+   005E 4B            [ 4]  135 	ld	c, e
+   005F 42            [ 4]  136 	ld	b, d
+   0060 CB 38         [ 8]  137 	srl	b
+   0062 CB 19         [ 8]  138 	rr	c
+   0064 BF            [ 4]  139 	cp	a, a
+   0065 ED 42         [15]  140 	sbc	hl, bc
+   0067 4B            [ 4]  141 	ld	c, e
+   0068 42            [ 4]  142 	ld	b, d
+   0069 CB 38         [ 8]  143 	srl	b
+   006B CB 19         [ 8]  144 	rr	c
+   006D CB 38         [ 8]  145 	srl	b
+   006F CB 19         [ 8]  146 	rr	c
+   0071 BF            [ 4]  147 	cp	a, a
+   0072 ED 42         [15]  148 	sbc	hl, bc
+   0074 CB 3A         [ 8]  149 	srl	d
+   0076 CB 1B         [ 8]  150 	rr	e
+   0078 CB 3A         [ 8]  151 	srl	d
+   007A CB 1B         [ 8]  152 	rr	e
+   007C CB 3A         [ 8]  153 	srl	d
+   007E CB 1B         [ 8]  154 	rr	e
+   0080 CB 3A         [ 8]  155 	srl	d
+   0082 CB 1B         [ 8]  156 	rr	e
+   0084 19            [11]  157 	add	hl, de
+   0085 DD E1         [14]  158 	pop	ix
+   0087 C9            [10]  159 	ret
+                            160 ;src/util/tools.c:96: i16 sign(i16 x)
+                            161 ;	---------------------------------
+                            162 ; Function sign
+                            163 ; ---------------------------------
+   0088                     164 _sign::
+   0088 DD E5         [15]  165 	push	ix
+   008A DD 21 00 00   [14]  166 	ld	ix,#0
+   008E DD 39         [15]  167 	add	ix,sp
+                            168 ;src/util/tools.c:98: return  (x > 0) - (x < 0);
+   0090 AF            [ 4]  169 	xor	a, a
+   0091 DD BE 04      [19]  170 	cp	a, 4 (ix)
+   0094 DD 9E 05      [19]  171 	sbc	a, 5 (ix)
+   0097 E2r9Cr00      [10]  172 	jp	PO, 00103$
+   009A EE 80         [ 7]  173 	xor	a, #0x80
+   009C                     174 00103$:
+   009C 07            [ 4]  175 	rlca
+   009D E6 01         [ 7]  176 	and	a,#0x01
+   009F 6F            [ 4]  177 	ld	l, a
+   00A0 26 00         [ 7]  178 	ld	h, #0x00
+   00A2 DD 7E 05      [19]  179 	ld	a, 5 (ix)
+   00A5 07            [ 4]  180 	rlca
+   00A6 E6 01         [ 7]  181 	and	a,#0x01
+   00A8 4F            [ 4]  182 	ld	c, a
+   00A9 06 00         [ 7]  183 	ld	b, #0x00
+   00AB BF            [ 4]  184 	cp	a, a
+   00AC ED 42         [15]  185 	sbc	hl, bc
+   00AE DD E1         [14]  186 	pop	ix
+   00B0 C9            [10]  187 	ret
+                            188 ;src/util/tools.c:111: u8 collision(u8 x1, u8 y1, u8 w1, u8 h1, u8 x2, u8 y2, u8 w2, u8 h2)
+                            189 ;	---------------------------------
+                            190 ; Function collision
+                            191 ; ---------------------------------
+   00B1                     192 _collision::
+   00B1 DD E5         [15]  193 	push	ix
+   00B3 DD 21 00 00   [14]  194 	ld	ix,#0
+   00B7 DD 39         [15]  195 	add	ix,sp
+                            196 ;src/util/tools.c:113: return  ((x1 < x2 + w2) && (x1 + w1 > x2) &&  (y1 < y2 + h2) && (h1 + y1 > y2));
+   00B9 DD 4E 08      [19]  197 	ld	c, 8 (ix)
+   00BC 06 00         [ 7]  198 	ld	b, #0x00
+   00BE DD 6E 0A      [19]  199 	ld	l, 10 (ix)
+   00C1 26 00         [ 7]  200 	ld	h, #0x00
+   00C3 09            [11]  201 	add	hl, bc
+   00C4 DD 5E 04      [19]  202 	ld	e, 4 (ix)
+   00C7 16 00         [ 7]  203 	ld	d, #0x00
+   00C9 7B            [ 4]  204 	ld	a, e
+   00CA 95            [ 4]  205 	sub	a, l
+   00CB 7A            [ 4]  206 	ld	a, d
+   00CC 9C            [ 4]  207 	sbc	a, h
+   00CD E2rD2r00      [10]  208 	jp	PO, 00122$
+   00D0 EE 80         [ 7]  209 	xor	a, #0x80
+   00D2                     210 00122$:
+   00D2 F2r15r01      [10]  211 	jp	P, 00103$
+   00D5 DD 6E 06      [19]  212 	ld	l, 6 (ix)
+   00D8 26 00         [ 7]  213 	ld	h, #0x00
+   00DA 19            [11]  214 	add	hl, de
+   00DB 79            [ 4]  215 	ld	a, c
+   00DC 95            [ 4]  216 	sub	a, l
+   00DD 78            [ 4]  217 	ld	a, b
+   00DE 9C            [ 4]  218 	sbc	a, h
+   00DF E2rE4r00      [10]  219 	jp	PO, 00123$
+   00E2 EE 80         [ 7]  220 	xor	a, #0x80
+   00E4                     221 00123$:
+   00E4 F2r15r01      [10]  222 	jp	P, 00103$
+   00E7 DD 4E 09      [19]  223 	ld	c, 9 (ix)
+   00EA 06 00         [ 7]  224 	ld	b, #0x00
+   00EC DD 6E 0B      [19]  225 	ld	l, 11 (ix)
+   00EF 26 00         [ 7]  226 	ld	h, #0x00
+   00F1 09            [11]  227 	add	hl, bc
+   00F2 DD 5E 05      [19]  228 	ld	e, 5 (ix)
+   00F5 16 00         [ 7]  229 	ld	d, #0x00
+   00F7 7B            [ 4]  230 	ld	a, e
+   00F8 95            [ 4]  231 	sub	a, l
+   00F9 7A            [ 4]  232 	ld	a, d
+   00FA 9C            [ 4]  233 	sbc	a, h
+   00FB E2r00r01      [10]  234 	jp	PO, 00124$
+   00FE EE 80         [ 7]  235 	xor	a, #0x80
+   0100                     236 00124$:
+   0100 F2r15r01      [10]  237 	jp	P, 00103$
+   0103 DD 6E 07      [19]  238 	ld	l, 7 (ix)
+   0106 26 00         [ 7]  239 	ld	h, #0x00
+   0108 19            [11]  240 	add	hl, de
+   0109 79            [ 4]  241 	ld	a, c
+   010A 95            [ 4]  242 	sub	a, l
+   010B 78            [ 4]  243 	ld	a, b
+   010C 9C            [ 4]  244 	sbc	a, h
+   010D E2r12r01      [10]  245 	jp	PO, 00125$
+   0110 EE 80         [ 7]  246 	xor	a, #0x80
+   0112                     247 00125$:
+   0112 FAr19r01      [10]  248 	jp	M, 00104$
+   0115                     249 00103$:
+   0115 2E 00         [ 7]  250 	ld	l, #0x00
+   0117 18 02         [12]  251 	jr	00105$
+   0119                     252 00104$:
+   0119 2E 01         [ 7]  253 	ld	l, #0x01
+   011B                     254 00105$:
+   011B DD E1         [14]  255 	pop	ix
+   011D C9            [10]  256 	ret
+                            257 ;src/util/tools.c:124: i16 abs(i16 j)
+                            258 ;	---------------------------------
+                            259 ; Function abs
+                            260 ; ---------------------------------
+   011E                     261 _abs::
+                            262 ;src/util/tools.c:126: return (j < 0) ? -j : j;
+   011E FD 21 02 00   [14]  263 	ld	iy, #2
+   0122 FD 39         [15]  264 	add	iy, sp
+   0124 FD CB 01 7E   [20]  265 	bit	7,1 (iy)
+   0128 28 0C         [12]  266 	jr	Z,00103$
+   012A AF            [ 4]  267 	xor	a, a
+   012B FD 96 00      [19]  268 	sub	a, 0 (iy)
+   012E 6F            [ 4]  269 	ld	l, a
+   012F 3E 00         [ 7]  270 	ld	a, #0x00
+   0131 FD 9E 01      [19]  271 	sbc	a, 1 (iy)
+   0134 67            [ 4]  272 	ld	h, a
+   0135 C9            [10]  273 	ret
+   0136                     274 00103$:
+   0136 C1            [10]  275 	pop	bc
+   0137 E1            [10]  276 	pop	hl
+   0138 E5            [11]  277 	push	hl
+   0139 C5            [11]  278 	push	bc
+   013A C9            [10]  279 	ret
+                            280 ;src/util/tools.c:138: void clearScreen() {
+                            281 ;	---------------------------------
+                            282 ; Function clearScreen
+                            283 ; ---------------------------------
+   013B                     284 _clearScreen::
+                            285 ;src/util/tools.c:140: cpct_memset(CPCT_VMEM_START, cpct_px2byteM0(0,0), 0x4000);
+   013B 21 00 00      [10]  286 	ld	hl, #0x0000
+   013E E5            [11]  287 	push	hl
+   013F CDr00r00      [17]  288 	call	_cpct_px2byteM0
+   0142 45            [ 4]  289 	ld	b, l
+   0143 21 00 40      [10]  290 	ld	hl, #0x4000
+   0146 E5            [11]  291 	push	hl
+   0147 C5            [11]  292 	push	bc
+   0148 33            [ 6]  293 	inc	sp
+   0149 26 C0         [ 7]  294 	ld	h, #0xc0
+   014B E5            [11]  295 	push	hl
+   014C CDr00r00      [17]  296 	call	_cpct_memset
+   014F C9            [10]  297 	ret
+                            298 ;src/util/tools.c:152: void clearWindow(u8 xPos, u8 yPos, u8 width, u8 height) {
+                            299 ;	---------------------------------
+                            300 ; Function clearWindow
+                            301 ; ---------------------------------
+   0150                     302 _clearWindow::
+                            303 ;src/util/tools.c:154: u8* pvideo = cpct_getScreenPtr(CPCT_VMEM_START, xPos, yPos);
+   0150 21 03 00      [10]  304 	ld	hl, #3+0
+   0153 39            [11]  305 	add	hl, sp
+   0154 7E            [ 7]  306 	ld	a, (hl)
+   0155 F5            [11]  307 	push	af
+   0156 33            [ 6]  308 	inc	sp
+   0157 21 03 00      [10]  309 	ld	hl, #3+0
+   015A 39            [11]  310 	add	hl, sp
+   015B 7E            [ 7]  311 	ld	a, (hl)
+   015C F5            [11]  312 	push	af
+   015D 33            [ 6]  313 	inc	sp
+   015E 21 00 C0      [10]  314 	ld	hl, #0xc000
+   0161 E5            [11]  315 	push	hl
+   0162 CDr00r00      [17]  316 	call	_cpct_getScreenPtr
+                            317 ;src/util/tools.c:155: cpct_drawSolidBox(pvideo, cpct_px2byteM0(0,0), width, height);
+   0165 E5            [11]  318 	push	hl
+   0166 21 00 00      [10]  319 	ld	hl, #0x0000
+   0169 E5            [11]  320 	push	hl
+   016A CDr00r00      [17]  321 	call	_cpct_px2byteM0
+   016D 55            [ 4]  322 	ld	d, l
+   016E C1            [10]  323 	pop	bc
+   016F 21 05 00      [10]  324 	ld	hl, #5+0
+   0172 39            [11]  325 	add	hl, sp
+   0173 7E            [ 7]  326 	ld	a, (hl)
+   0174 F5            [11]  327 	push	af
+   0175 33            [ 6]  328 	inc	sp
+   0176 21 05 00      [10]  329 	ld	hl, #5+0
+   0179 39            [11]  330 	add	hl, sp
+   017A 7E            [ 7]  331 	ld	a, (hl)
+   017B F5            [11]  332 	push	af
+   017C 33            [ 6]  333 	inc	sp
+   017D D5            [11]  334 	push	de
+   017E 33            [ 6]  335 	inc	sp
+   017F C5            [11]  336 	push	bc
+   0180 CDr00r00      [17]  337 	call	_cpct_drawSolidBox
+   0183 F1            [10]  338 	pop	af
+   0184 F1            [10]  339 	pop	af
+   0185 33            [ 6]  340 	inc	sp
+   0186 C9            [10]  341 	ret
+                            342 ;src/util/tools.c:168: void drawFrame(u8 x1, u8 y1, u8 x2, u8 y2) {
+                            343 ;	---------------------------------
+                            344 ; Function drawFrame
+                            345 ; ---------------------------------
+   0187                     346 _drawFrame::
+   0187 DD E5         [15]  347 	push	ix
+   0189 DD 21 00 00   [14]  348 	ld	ix,#0
+   018D DD 39         [15]  349 	add	ix,sp
+   018F 21 F7 FF      [10]  350 	ld	hl, #-9
+   0192 39            [11]  351 	add	hl, sp
+   0193 F9            [ 6]  352 	ld	sp, hl
+                            353 ;src/util/tools.c:172: frame_w = x2 - x1;
+   0194 DD 7E 06      [19]  354 	ld	a, 6 (ix)
+   0197 DD 96 04      [19]  355 	sub	a, 4 (ix)
+   019A 47            [ 4]  356 	ld	b, a
+   019B DD 70 F7      [19]  357 	ld	-9 (ix), b
+                            358 ;src/util/tools.c:175: clearWindow(x1, y1, x2 - x1, y2 - y1);
+   019E DD 7E 07      [19]  359 	ld	a, 7 (ix)
+   01A1 DD 96 05      [19]  360 	sub	a, 5 (ix)
+   01A4 57            [ 4]  361 	ld	d, a
+   01A5 58            [ 4]  362 	ld	e, b
+   01A6 D5            [11]  363 	push	de
+   01A7 DD 66 05      [19]  364 	ld	h, 5 (ix)
+   01AA DD 6E 04      [19]  365 	ld	l, 4 (ix)
+   01AD E5            [11]  366 	push	hl
+   01AE CDr50r01      [17]  367 	call	_clearWindow
+   01B1 F1            [10]  368 	pop	af
+   01B2 F1            [10]  369 	pop	af
+                            370 ;src/util/tools.c:178: pvideo = cpct_getScreenPtr(CPCT_VMEM_START, x1, y1);
+   01B3 DD 66 05      [19]  371 	ld	h, 5 (ix)
+   01B6 DD 6E 04      [19]  372 	ld	l, 4 (ix)
+   01B9 E5            [11]  373 	push	hl
+   01BA 21 00 C0      [10]  374 	ld	hl, #0xc000
+   01BD E5            [11]  375 	push	hl
+   01BE CDr00r00      [17]  376 	call	_cpct_getScreenPtr
+   01C1 4D            [ 4]  377 	ld	c, l
+   01C2 44            [ 4]  378 	ld	b, h
+                            379 ;src/util/tools.c:179: cpct_drawSprite(g_border_0,  pvideo, 2, 4);
+   01C3 59            [ 4]  380 	ld	e, c
+   01C4 50            [ 4]  381 	ld	d, b
+   01C5 C5            [11]  382 	push	bc
+   01C6 21 02 04      [10]  383 	ld	hl, #0x0402
+   01C9 E5            [11]  384 	push	hl
+   01CA D5            [11]  385 	push	de
+   01CB 21r00r00      [10]  386 	ld	hl, #_g_border_0
+   01CE E5            [11]  387 	push	hl
+   01CF CDr00r00      [17]  388 	call	_cpct_drawSprite
+   01D2 C1            [10]  389 	pop	bc
+                            390 ;src/util/tools.c:182: for (x = x1 + 2; x < (x2 - 2); x = x + 2) {
+   01D3 DD 7E 04      [19]  391 	ld	a, 4 (ix)
+   01D6 C6 02         [ 7]  392 	add	a, #0x02
+   01D8 DD 77 FC      [19]  393 	ld	-4 (ix), a
+   01DB DD 77 FF      [19]  394 	ld	-1 (ix), a
+   01DE 11r00r00      [10]  395 	ld	de, #_g_border_4+0
+   01E1                     396 00105$:
+   01E1 DD 7E 06      [19]  397 	ld	a, 6 (ix)
+   01E4 26 00         [ 7]  398 	ld	h, #0x00
+   01E6 C6 FE         [ 7]  399 	add	a, #0xfe
+   01E8 DD 77 FD      [19]  400 	ld	-3 (ix), a
+   01EB 7C            [ 4]  401 	ld	a, h
+   01EC CE FF         [ 7]  402 	adc	a, #0xff
+   01EE DD 77 FE      [19]  403 	ld	-2 (ix), a
+   01F1 DD 6E FF      [19]  404 	ld	l, -1 (ix)
+   01F4 26 00         [ 7]  405 	ld	h, #0x00
+                            406 ;src/util/tools.c:183: cpct_drawSprite(g_border_4,  pvideo + (x - x1), 2, 4);
+   01F6 DD 7E 04      [19]  407 	ld	a, 4 (ix)
+   01F9 DD 77 FA      [19]  408 	ld	-6 (ix), a
+   01FC DD 36 FB 00   [19]  409 	ld	-5 (ix), #0x00
+                            410 ;src/util/tools.c:182: for (x = x1 + 2; x < (x2 - 2); x = x + 2) {
+   0200 7D            [ 4]  411 	ld	a, l
+   0201 DD 96 FD      [19]  412 	sub	a, -3 (ix)
+   0204 7C            [ 4]  413 	ld	a, h
+   0205 DD 9E FE      [19]  414 	sbc	a, -2 (ix)
+   0208 E2r0Dr02      [10]  415 	jp	PO, 00142$
+   020B EE 80         [ 7]  416 	xor	a, #0x80
+   020D                     417 00142$:
+   020D F2r37r02      [10]  418 	jp	P, 00101$
+                            419 ;src/util/tools.c:183: cpct_drawSprite(g_border_4,  pvideo + (x - x1), 2, 4);
+   0210 7D            [ 4]  420 	ld	a, l
+   0211 DD 96 FA      [19]  421 	sub	a, -6 (ix)
+   0214 6F            [ 4]  422 	ld	l, a
+   0215 7C            [ 4]  423 	ld	a, h
+   0216 DD 9E FB      [19]  424 	sbc	a, -5 (ix)
+   0219 67            [ 4]  425 	ld	h, a
+   021A 09            [11]  426 	add	hl, bc
+   021B E5            [11]  427 	push	hl
+   021C FD E1         [14]  428 	pop	iy
+   021E C5            [11]  429 	push	bc
+   021F D5            [11]  430 	push	de
+   0220 21 02 04      [10]  431 	ld	hl, #0x0402
+   0223 E5            [11]  432 	push	hl
+   0224 FD E5         [15]  433 	push	iy
+   0226 21r00r00      [10]  434 	ld	hl, #_g_border_4
+   0229 E5            [11]  435 	push	hl
+   022A CDr00r00      [17]  436 	call	_cpct_drawSprite
+   022D D1            [10]  437 	pop	de
+   022E C1            [10]  438 	pop	bc
+                            439 ;src/util/tools.c:182: for (x = x1 + 2; x < (x2 - 2); x = x + 2) {
+   022F DD 34 FF      [23]  440 	inc	-1 (ix)
+   0232 DD 34 FF      [23]  441 	inc	-1 (ix)
+   0235 18 AA         [12]  442 	jr	00105$
+   0237                     443 00101$:
+                            444 ;src/util/tools.c:187: cpct_drawSprite(g_border_1,  pvideo + (frame_w - 2), 2, 4);
+   0237 DD 5E F7      [19]  445 	ld	e, -9 (ix)
+   023A 16 00         [ 7]  446 	ld	d, #0x00
+   023C 1B            [ 6]  447 	dec	de
+   023D 1B            [ 6]  448 	dec	de
+   023E 6B            [ 4]  449 	ld	l, e
+   023F 62            [ 4]  450 	ld	h, d
+   0240 09            [11]  451 	add	hl, bc
+   0241 4D            [ 4]  452 	ld	c, l
+   0242 44            [ 4]  453 	ld	b, h
+   0243 D5            [11]  454 	push	de
+   0244 21 02 04      [10]  455 	ld	hl, #0x0402
+   0247 E5            [11]  456 	push	hl
+   0248 C5            [11]  457 	push	bc
+   0249 21r00r00      [10]  458 	ld	hl, #_g_border_1
+   024C E5            [11]  459 	push	hl
+   024D CDr00r00      [17]  460 	call	_cpct_drawSprite
+   0250 D1            [10]  461 	pop	de
+                            462 ;src/util/tools.c:190: for (x = y1 + 4; x < (y2 - 4); x = x + 4) {
+   0251 DD 7E 05      [19]  463 	ld	a, 5 (ix)
+   0254 C6 04         [ 7]  464 	add	a, #0x04
+   0256 DD 77 FF      [19]  465 	ld	-1 (ix), a
+   0259                     466 00108$:
+   0259 DD 7E 07      [19]  467 	ld	a, 7 (ix)
+   025C 06 00         [ 7]  468 	ld	b, #0x00
+   025E C6 FC         [ 7]  469 	add	a, #0xfc
+   0260 4F            [ 4]  470 	ld	c, a
+   0261 78            [ 4]  471 	ld	a, b
+   0262 CE FF         [ 7]  472 	adc	a, #0xff
+   0264 47            [ 4]  473 	ld	b, a
+   0265 DD 7E FF      [19]  474 	ld	a, -1 (ix)
+   0268 26 00         [ 7]  475 	ld	h, #0x00
+   026A 91            [ 4]  476 	sub	a, c
+   026B 7C            [ 4]  477 	ld	a, h
+   026C 98            [ 4]  478 	sbc	a, b
+   026D E2r72r02      [10]  479 	jp	PO, 00143$
+   0270 EE 80         [ 7]  480 	xor	a, #0x80
+   0272                     481 00143$:
+   0272 F2rB6r02      [10]  482 	jp	P, 00102$
+                            483 ;src/util/tools.c:191: pvideo = cpct_getScreenPtr(CPCT_VMEM_START, x1, x);
+   0275 D5            [11]  484 	push	de
+   0276 DD 66 FF      [19]  485 	ld	h, -1 (ix)
+   0279 DD 6E 04      [19]  486 	ld	l, 4 (ix)
+   027C E5            [11]  487 	push	hl
+   027D 21 00 C0      [10]  488 	ld	hl, #0xc000
+   0280 E5            [11]  489 	push	hl
+   0281 CDr00r00      [17]  490 	call	_cpct_getScreenPtr
+   0284 D1            [10]  491 	pop	de
+                            492 ;src/util/tools.c:192: cpct_drawSprite(g_border_5,  pvideo, 2, 4);
+   0285 E5            [11]  493 	push	hl
+   0286 FD E1         [14]  494 	pop	iy
+   0288 E5            [11]  495 	push	hl
+   0289 D5            [11]  496 	push	de
+   028A 01 02 04      [10]  497 	ld	bc, #0x0402
+   028D C5            [11]  498 	push	bc
+   028E FD E5         [15]  499 	push	iy
+   0290 01r00r00      [10]  500 	ld	bc, #_g_border_5
+   0293 C5            [11]  501 	push	bc
+   0294 CDr00r00      [17]  502 	call	_cpct_drawSprite
+   0297 D1            [10]  503 	pop	de
+   0298 E1            [10]  504 	pop	hl
+                            505 ;src/util/tools.c:193: cpct_drawSprite(g_border_6,  pvideo + (frame_w - 2), 2, 4);
+   0299 19            [11]  506 	add	hl, de
+   029A D5            [11]  507 	push	de
+   029B 01 02 04      [10]  508 	ld	bc, #0x0402
+   029E C5            [11]  509 	push	bc
+   029F E5            [11]  510 	push	hl
+   02A0 21r00r00      [10]  511 	ld	hl, #_g_border_6
+   02A3 E5            [11]  512 	push	hl
+   02A4 CDr00r00      [17]  513 	call	_cpct_drawSprite
+   02A7 D1            [10]  514 	pop	de
+                            515 ;src/util/tools.c:190: for (x = y1 + 4; x < (y2 - 4); x = x + 4) {
+   02A8 DD 34 FF      [23]  516 	inc	-1 (ix)
+   02AB DD 34 FF      [23]  517 	inc	-1 (ix)
+   02AE DD 34 FF      [23]  518 	inc	-1 (ix)
+   02B1 DD 34 FF      [23]  519 	inc	-1 (ix)
+   02B4 18 A3         [12]  520 	jr	00108$
+   02B6                     521 00102$:
+                            522 ;src/util/tools.c:196: pvideo = cpct_getScreenPtr(CPCT_VMEM_START, x1, y2 - 4);
+   02B6 DD 7E 07      [19]  523 	ld	a, 7 (ix)
+   02B9 C6 FC         [ 7]  524 	add	a, #0xfc
+   02BB 47            [ 4]  525 	ld	b, a
+   02BC D5            [11]  526 	push	de
+   02BD C5            [11]  527 	push	bc
+   02BE 33            [ 6]  528 	inc	sp
+   02BF DD 7E 04      [19]  529 	ld	a, 4 (ix)
+   02C2 F5            [11]  530 	push	af
+   02C3 33            [ 6]  531 	inc	sp
+   02C4 21 00 C0      [10]  532 	ld	hl, #0xc000
+   02C7 E5            [11]  533 	push	hl
+   02C8 CDr00r00      [17]  534 	call	_cpct_getScreenPtr
+   02CB 4D            [ 4]  535 	ld	c, l
+   02CC 44            [ 4]  536 	ld	b, h
+   02CD D1            [10]  537 	pop	de
+                            538 ;src/util/tools.c:199: cpct_drawSprite(g_border_2,  pvideo, 2, 4);
+   02CE DD 71 F8      [19]  539 	ld	-8 (ix), c
+   02D1 DD 70 F9      [19]  540 	ld	-7 (ix), b
+   02D4 C5            [11]  541 	push	bc
+   02D5 D5            [11]  542 	push	de
+   02D6 21 02 04      [10]  543 	ld	hl, #0x0402
+   02D9 E5            [11]  544 	push	hl
+   02DA DD 6E F8      [19]  545 	ld	l,-8 (ix)
+   02DD DD 66 F9      [19]  546 	ld	h,-7 (ix)
+   02E0 E5            [11]  547 	push	hl
+   02E1 21r00r00      [10]  548 	ld	hl, #_g_border_2
+   02E4 E5            [11]  549 	push	hl
+   02E5 CDr00r00      [17]  550 	call	_cpct_drawSprite
+   02E8 D1            [10]  551 	pop	de
+   02E9 C1            [10]  552 	pop	bc
+                            553 ;src/util/tools.c:202: for (x = x1 + 2; x < (x2 - 2); x = x + 2) {
+   02EA DD 7E FC      [19]  554 	ld	a, -4 (ix)
+   02ED DD 77 F8      [19]  555 	ld	-8 (ix), a
+   02F0                     556 00111$:
+   02F0 DD 6E F8      [19]  557 	ld	l, -8 (ix)
+   02F3 26 00         [ 7]  558 	ld	h, #0x00
+   02F5 7D            [ 4]  559 	ld	a, l
+   02F6 DD 96 FD      [19]  560 	sub	a, -3 (ix)
+   02F9 7C            [ 4]  561 	ld	a, h
+   02FA DD 9E FE      [19]  562 	sbc	a, -2 (ix)
+   02FD E2r02r03      [10]  563 	jp	PO, 00144$
+   0300 EE 80         [ 7]  564 	xor	a, #0x80
+   0302                     565 00144$:
+   0302 F2r2Cr03      [10]  566 	jp	P, 00103$
+                            567 ;src/util/tools.c:203: cpct_drawSprite(g_border_7,  pvideo + (x - x1), 2, 4);
+   0305 7D            [ 4]  568 	ld	a, l
+   0306 DD 96 FA      [19]  569 	sub	a, -6 (ix)
+   0309 6F            [ 4]  570 	ld	l, a
+   030A 7C            [ 4]  571 	ld	a, h
+   030B DD 9E FB      [19]  572 	sbc	a, -5 (ix)
+   030E 67            [ 4]  573 	ld	h, a
+   030F 09            [11]  574 	add	hl, bc
+   0310 E5            [11]  575 	push	hl
+   0311 FD E1         [14]  576 	pop	iy
+   0313 C5            [11]  577 	push	bc
+   0314 D5            [11]  578 	push	de
+   0315 21 02 04      [10]  579 	ld	hl, #0x0402
+   0318 E5            [11]  580 	push	hl
+   0319 FD E5         [15]  581 	push	iy
+   031B 21r00r00      [10]  582 	ld	hl, #_g_border_7
+   031E E5            [11]  583 	push	hl
+   031F CDr00r00      [17]  584 	call	_cpct_drawSprite
+   0322 D1            [10]  585 	pop	de
+   0323 C1            [10]  586 	pop	bc
+                            587 ;src/util/tools.c:202: for (x = x1 + 2; x < (x2 - 2); x = x + 2) {
+   0324 DD 34 F8      [23]  588 	inc	-8 (ix)
+   0327 DD 34 F8      [23]  589 	inc	-8 (ix)
+   032A 18 C4         [12]  590 	jr	00111$
+   032C                     591 00103$:
+                            592 ;src/util/tools.c:207: cpct_drawSprite(g_border_3,  pvideo + (frame_w - 2), 2, 4);
+   032C 69            [ 4]  593 	ld	l, c
+   032D 60            [ 4]  594 	ld	h, b
+   032E 19            [11]  595 	add	hl, de
+   032F 01r00r00      [10]  596 	ld	bc, #_g_border_3+0
+   0332 11 02 04      [10]  597 	ld	de, #0x0402
+   0335 D5            [11]  598 	push	de
+   0336 E5            [11]  599 	push	hl
+   0337 C5            [11]  600 	push	bc
+   0338 CDr00r00      [17]  601 	call	_cpct_drawSprite
+   033B DD F9         [10]  602 	ld	sp, ix
+   033D DD E1         [14]  603 	pop	ix
+   033F C9            [10]  604 	ret
+                            605 ;src/util/tools.c:210: void drawWindow(){
+                            606 ;	---------------------------------
+                            607 ; Function drawWindow
+                            608 ; ---------------------------------
+   0340                     609 _drawWindow::
+                            610 ;src/util/tools.c:215: cpct_drawSolidBox ((u16*)62099-5, 0xff, 51-2, 2);
+   0340 21 31 02      [10]  611 	ld	hl, #0x0231
+   0343 E5            [11]  612 	push	hl
+   0344 3E FF         [ 7]  613 	ld	a, #0xff
+   0346 F5            [11]  614 	push	af
+   0347 33            [ 6]  615 	inc	sp
+   0348 21 8E F2      [10]  616 	ld	hl, #0xf28e
+   034B E5            [11]  617 	push	hl
+   034C CDr00r00      [17]  618 	call	_cpct_drawSolidBox
+   034F F1            [10]  619 	pop	af
+                            620 ;src/util/tools.c:216: cpct_drawSolidBox ((u16*)62659-5, 0xff, 51-2, 2);
+   0350 33            [ 6]  621 	inc	sp
+   0351 21 31 02      [10]  622 	ld	hl,#0x0231
+   0354 E3            [19]  623 	ex	(sp),hl
+   0355 3E FF         [ 7]  624 	ld	a, #0xff
+   0357 F5            [11]  625 	push	af
+   0358 33            [ 6]  626 	inc	sp
+   0359 21 BE F4      [10]  627 	ld	hl, #0xf4be
+   035C E5            [11]  628 	push	hl
+   035D CDr00r00      [17]  629 	call	_cpct_drawSolidBox
+   0360 F1            [10]  630 	pop	af
+                            631 ;src/util/tools.c:219: cpct_drawSolidBox ((u16*)49891-5, 0x00, 51-2, 2);
+   0361 33            [ 6]  632 	inc	sp
+   0362 21 31 02      [10]  633 	ld	hl,#0x0231
+   0365 E3            [19]  634 	ex	(sp),hl
+   0366 AF            [ 4]  635 	xor	a, a
+   0367 F5            [11]  636 	push	af
+   0368 33            [ 6]  637 	inc	sp
+   0369 21 DE C2      [10]  638 	ld	hl, #0xc2de
+   036C E5            [11]  639 	push	hl
+   036D CDr00r00      [17]  640 	call	_cpct_drawSolidBox
+   0370 F1            [10]  641 	pop	af
+                            642 ;src/util/tools.c:220: cpct_drawSolidBox ((u16*)58563-5, 0x00, 51-2, 2);
+   0371 33            [ 6]  643 	inc	sp
+   0372 21 31 02      [10]  644 	ld	hl,#0x0231
+   0375 E3            [19]  645 	ex	(sp),hl
+   0376 AF            [ 4]  646 	xor	a, a
+   0377 F5            [11]  647 	push	af
+   0378 33            [ 6]  648 	inc	sp
+   0379 21 BE E4      [10]  649 	ld	hl, #0xe4be
+   037C E5            [11]  650 	push	hl
+   037D CDr00r00      [17]  651 	call	_cpct_drawSolidBox
+   0380 F1            [10]  652 	pop	af
+                            653 ;src/util/tools.c:223: cpct_drawSolidBox ((u16*)53987-5, 0x3f, 51-2, 58-8);
+   0381 33            [ 6]  654 	inc	sp
+   0382 21 31 32      [10]  655 	ld	hl,#0x3231
+   0385 E3            [19]  656 	ex	(sp),hl
+   0386 3E 3F         [ 7]  657 	ld	a, #0x3f
+   0388 F5            [11]  658 	push	af
+   0389 33            [ 6]  659 	inc	sp
+   038A 21 DE D2      [10]  660 	ld	hl, #0xd2de
+   038D E5            [11]  661 	push	hl
+   038E CDr00r00      [17]  662 	call	_cpct_drawSolidBox
+   0391 F1            [10]  663 	pop	af
+                            664 ;src/util/tools.c:228: cpct_drawSolidBox ((u16*)49890-5, 0x55, 1, 2);
+   0392 33            [ 6]  665 	inc	sp
+   0393 21 01 02      [10]  666 	ld	hl,#0x0201
+   0396 E3            [19]  667 	ex	(sp),hl
+   0397 3E 55         [ 7]  668 	ld	a, #0x55
+   0399 F5            [11]  669 	push	af
+   039A 33            [ 6]  670 	inc	sp
+   039B 21 DD C2      [10]  671 	ld	hl, #0xc2dd
+   039E E5            [11]  672 	push	hl
+   039F CDr00r00      [17]  673 	call	_cpct_drawSolidBox
+   03A2 F1            [10]  674 	pop	af
+                            675 ;src/util/tools.c:231: cpct_drawSolidBox ((u16*)53986-5, 0xaa, 1, 58-8);
+   03A3 33            [ 6]  676 	inc	sp
+   03A4 21 01 32      [10]  677 	ld	hl,#0x3201
+   03A7 E3            [19]  678 	ex	(sp),hl
+   03A8 3E AA         [ 7]  679 	ld	a, #0xaa
+   03AA F5            [11]  680 	push	af
+   03AB 33            [ 6]  681 	inc	sp
+   03AC 21 DD D2      [10]  682 	ld	hl, #0xd2dd
+   03AF E5            [11]  683 	push	hl
+   03B0 CDr00r00      [17]  684 	call	_cpct_drawSolidBox
+   03B3 F1            [10]  685 	pop	af
+                            686 ;src/util/tools.c:234: cpct_drawSolidBox ((u16*)58562-5, 0x55, 1, 2);
+   03B4 33            [ 6]  687 	inc	sp
+   03B5 21 01 02      [10]  688 	ld	hl,#0x0201
+   03B8 E3            [19]  689 	ex	(sp),hl
+   03B9 3E 55         [ 7]  690 	ld	a, #0x55
+   03BB F5            [11]  691 	push	af
+   03BC 33            [ 6]  692 	inc	sp
+   03BD 21 BD E4      [10]  693 	ld	hl, #0xe4bd
+   03C0 E5            [11]  694 	push	hl
+   03C1 CDr00r00      [17]  695 	call	_cpct_drawSolidBox
+   03C4 F1            [10]  696 	pop	af
+                            697 ;src/util/tools.c:238: cpct_drawSolidBox ((u16*)49931+2, 0xaa, 1, 2);
+   03C5 33            [ 6]  698 	inc	sp
+   03C6 21 01 02      [10]  699 	ld	hl,#0x0201
+   03C9 E3            [19]  700 	ex	(sp),hl
+   03CA 3E AA         [ 7]  701 	ld	a, #0xaa
+   03CC F5            [11]  702 	push	af
+   03CD 33            [ 6]  703 	inc	sp
+   03CE 21 0F C3      [10]  704 	ld	hl, #0xc30f
+   03D1 E5            [11]  705 	push	hl
+   03D2 CDr00r00      [17]  706 	call	_cpct_drawSolidBox
+   03D5 F1            [10]  707 	pop	af
+                            708 ;src/util/tools.c:242: cpct_drawSolidBox ((u16*)54027+2, 0x55, 1, 58-8);
+   03D6 33            [ 6]  709 	inc	sp
+   03D7 21 01 32      [10]  710 	ld	hl,#0x3201
+   03DA E3            [19]  711 	ex	(sp),hl
+   03DB 3E 55         [ 7]  712 	ld	a, #0x55
+   03DD F5            [11]  713 	push	af
+   03DE 33            [ 6]  714 	inc	sp
+   03DF 21 0F D3      [10]  715 	ld	hl, #0xd30f
+   03E2 E5            [11]  716 	push	hl
+   03E3 CDr00r00      [17]  717 	call	_cpct_drawSolidBox
+   03E6 F1            [10]  718 	pop	af
+                            719 ;src/util/tools.c:245: cpct_drawSolidBox ((u16*)58603+2, 0xaa, 1, 2);
+   03E7 33            [ 6]  720 	inc	sp
+   03E8 21 01 02      [10]  721 	ld	hl,#0x0201
+   03EB E3            [19]  722 	ex	(sp),hl
+   03EC 3E AA         [ 7]  723 	ld	a, #0xaa
+   03EE F5            [11]  724 	push	af
+   03EF 33            [ 6]  725 	inc	sp
+   03F0 21 EF E4      [10]  726 	ld	hl, #0xe4ef
+   03F3 E5            [11]  727 	push	hl
+   03F4 CDr00r00      [17]  728 	call	_cpct_drawSolidBox
+   03F7 F1            [10]  729 	pop	af
+   03F8 F1            [10]  730 	pop	af
+   03F9 33            [ 6]  731 	inc	sp
+   03FA C9            [10]  732 	ret
+                            733 ;src/util/tools.c:249: void drawWindow2(u8 x, u8 y, u8 width, u8 height){
+                            734 ;	---------------------------------
+                            735 ; Function drawWindow2
+                            736 ; ---------------------------------
+   03FB                     737 _drawWindow2::
+   03FB DD E5         [15]  738 	push	ix
+   03FD DD 21 00 00   [14]  739 	ld	ix,#0
+   0401 DD 39         [15]  740 	add	ix,sp
+   0403 F5            [11]  741 	push	af
+                            742 ;src/util/tools.c:256: cornerUp = cpct_getScreenPtr(CPCT_VMEM_START, x, y);
+   0404 DD 66 05      [19]  743 	ld	h, 5 (ix)
+   0407 DD 6E 04      [19]  744 	ld	l, 4 (ix)
+   040A E5            [11]  745 	push	hl
+   040B 21 00 C0      [10]  746 	ld	hl, #0xc000
+   040E E5            [11]  747 	push	hl
+   040F CDr00r00      [17]  748 	call	_cpct_getScreenPtr
+                            749 ;src/util/tools.c:257: lineUp = cpct_getScreenPtr(CPCT_VMEM_START, x, y+1);
+   0412 DD 46 05      [19]  750 	ld	b, 5 (ix)
+   0415 04            [ 4]  751 	inc	b
+   0416 C5            [11]  752 	push	bc
+   0417 33            [ 6]  753 	inc	sp
+   0418 DD 7E 04      [19]  754 	ld	a, 4 (ix)
+   041B F5            [11]  755 	push	af
+   041C 33            [ 6]  756 	inc	sp
+   041D 21 00 C0      [10]  757 	ld	hl, #0xc000
+   0420 E5            [11]  758 	push	hl
+   0421 CDr00r00      [17]  759 	call	_cpct_getScreenPtr
+                            760 ;src/util/tools.c:258: cornerDown = cpct_getScreenPtr(CPCT_VMEM_START, x, y+height);
+   0424 DD 7E 05      [19]  761 	ld	a, 5 (ix)
+   0427 DD 86 07      [19]  762 	add	a, 7 (ix)
+   042A DD 77 FF      [19]  763 	ld	-1 (ix), a
+   042D F5            [11]  764 	push	af
+   042E 33            [ 6]  765 	inc	sp
+   042F DD 7E 04      [19]  766 	ld	a, 4 (ix)
+   0432 F5            [11]  767 	push	af
+   0433 33            [ 6]  768 	inc	sp
+   0434 21 00 C0      [10]  769 	ld	hl, #0xc000
+   0437 E5            [11]  770 	push	hl
+   0438 CDr00r00      [17]  771 	call	_cpct_getScreenPtr
+                            772 ;src/util/tools.c:259: lineDown = cpct_getScreenPtr(CPCT_VMEM_START, x, y+height-1);
+   043B DD 46 FF      [19]  773 	ld	b, -1 (ix)
+   043E 05            [ 4]  774 	dec	b
+   043F C5            [11]  775 	push	bc
+   0440 33            [ 6]  776 	inc	sp
+   0441 DD 7E 04      [19]  777 	ld	a, 4 (ix)
+   0444 F5            [11]  778 	push	af
+   0445 33            [ 6]  779 	inc	sp
+   0446 21 00 C0      [10]  780 	ld	hl, #0xc000
+   0449 E5            [11]  781 	push	hl
+   044A CDr00r00      [17]  782 	call	_cpct_getScreenPtr
+                            783 ;src/util/tools.c:264: pvideo = cpct_getScreenPtr(CPCT_VMEM_START, x+1, y);
+   044D DD 46 04      [19]  784 	ld	b, 4 (ix)
+   0450 04            [ 4]  785 	inc	b
+   0451 C5            [11]  786 	push	bc
+   0452 DD 7E 05      [19]  787 	ld	a, 5 (ix)
+   0455 F5            [11]  788 	push	af
+   0456 33            [ 6]  789 	inc	sp
+   0457 C5            [11]  790 	push	bc
+   0458 33            [ 6]  791 	inc	sp
+   0459 21 00 C0      [10]  792 	ld	hl, #0xc000
+   045C E5            [11]  793 	push	hl
+   045D CDr00r00      [17]  794 	call	_cpct_getScreenPtr
+   0460 C1            [10]  795 	pop	bc
+                            796 ;src/util/tools.c:265: cpct_drawSolidBox (pvideo, 0xff, width-4, 2);
+   0461 DD 7E 06      [19]  797 	ld	a, 6 (ix)
+   0464 C6 FC         [ 7]  798 	add	a, #0xfc
+   0466 4F            [ 4]  799 	ld	c, a
+   0467 C5            [11]  800 	push	bc
+   0468 3E 02         [ 7]  801 	ld	a, #0x02
+   046A F5            [11]  802 	push	af
+   046B 33            [ 6]  803 	inc	sp
+   046C 51            [ 4]  804 	ld	d, c
+   046D 1E FF         [ 7]  805 	ld	e,#0xff
+   046F D5            [11]  806 	push	de
+   0470 E5            [11]  807 	push	hl
+   0471 CDr00r00      [17]  808 	call	_cpct_drawSolidBox
+   0474 F1            [10]  809 	pop	af
+   0475 F1            [10]  810 	pop	af
+   0476 33            [ 6]  811 	inc	sp
+   0477 C1            [10]  812 	pop	bc
+                            813 ;src/util/tools.c:266: pvideo = cpct_getScreenPtr(CPCT_VMEM_START, x+1, y+height);
+   0478 C5            [11]  814 	push	bc
+   0479 DD 7E FF      [19]  815 	ld	a, -1 (ix)
+   047C F5            [11]  816 	push	af
+   047D 33            [ 6]  817 	inc	sp
+   047E C5            [11]  818 	push	bc
+   047F 33            [ 6]  819 	inc	sp
+   0480 21 00 C0      [10]  820 	ld	hl, #0xc000
+   0483 E5            [11]  821 	push	hl
+   0484 CDr00r00      [17]  822 	call	_cpct_getScreenPtr
+   0487 C1            [10]  823 	pop	bc
+                            824 ;src/util/tools.c:267: cpct_drawSolidBox (pvideo, 0xff, width-4, 2);
+   0488 C5            [11]  825 	push	bc
+   0489 3E 02         [ 7]  826 	ld	a, #0x02
+   048B F5            [11]  827 	push	af
+   048C 33            [ 6]  828 	inc	sp
+   048D 51            [ 4]  829 	ld	d, c
+   048E 1E FF         [ 7]  830 	ld	e,#0xff
+   0490 D5            [11]  831 	push	de
+   0491 E5            [11]  832 	push	hl
+   0492 CDr00r00      [17]  833 	call	_cpct_drawSolidBox
+   0495 F1            [10]  834 	pop	af
+   0496 F1            [10]  835 	pop	af
+   0497 33            [ 6]  836 	inc	sp
+   0498 C1            [10]  837 	pop	bc
+                            838 ;src/util/tools.c:269: pvideo = cpct_getScreenPtr(CPCT_VMEM_START, x+1, y+2);
+   0499 DD 7E 05      [19]  839 	ld	a, 5 (ix)
+   049C C6 02         [ 7]  840 	add	a, #0x02
+   049E DD 77 FE      [19]  841 	ld	-2 (ix), a
+   04A1 C5            [11]  842 	push	bc
+   04A2 DD 7E FE      [19]  843 	ld	a, -2 (ix)
+   04A5 F5            [11]  844 	push	af
+   04A6 33            [ 6]  845 	inc	sp
+   04A7 C5            [11]  846 	push	bc
+   04A8 33            [ 6]  847 	inc	sp
+   04A9 21 00 C0      [10]  848 	ld	hl, #0xc000
+   04AC E5            [11]  849 	push	hl
+   04AD CDr00r00      [17]  850 	call	_cpct_getScreenPtr
+   04B0 C1            [10]  851 	pop	bc
+                            852 ;src/util/tools.c:270: cpct_drawSolidBox (pvideo, 0x00, width-4, 2);
+   04B1 C5            [11]  853 	push	bc
+   04B2 06 02         [ 7]  854 	ld	b, #0x02
+   04B4 C5            [11]  855 	push	bc
+   04B5 AF            [ 4]  856 	xor	a, a
+   04B6 F5            [11]  857 	push	af
+   04B7 33            [ 6]  858 	inc	sp
+   04B8 E5            [11]  859 	push	hl
+   04B9 CDr00r00      [17]  860 	call	_cpct_drawSolidBox
+   04BC F1            [10]  861 	pop	af
+   04BD F1            [10]  862 	pop	af
+   04BE 33            [ 6]  863 	inc	sp
+   04BF C1            [10]  864 	pop	bc
+                            865 ;src/util/tools.c:271: pvideo = cpct_getScreenPtr(CPCT_VMEM_START, x+1, y+height-2);
+   04C0 DD 35 FF      [23]  866 	dec	-1 (ix)
+   04C3 DD 35 FF      [23]  867 	dec	-1 (ix)
+   04C6 C5            [11]  868 	push	bc
+   04C7 DD 7E FF      [19]  869 	ld	a, -1 (ix)
+   04CA F5            [11]  870 	push	af
+   04CB 33            [ 6]  871 	inc	sp
+   04CC C5            [11]  872 	push	bc
+   04CD 33            [ 6]  873 	inc	sp
+   04CE 21 00 C0      [10]  874 	ld	hl, #0xc000
+   04D1 E5            [11]  875 	push	hl
+   04D2 CDr00r00      [17]  876 	call	_cpct_getScreenPtr
+   04D5 C1            [10]  877 	pop	bc
+                            878 ;src/util/tools.c:272: cpct_drawSolidBox (pvideo, 0x00, width-4, 2);
+   04D6 C5            [11]  879 	push	bc
+   04D7 06 02         [ 7]  880 	ld	b, #0x02
+   04D9 C5            [11]  881 	push	bc
+   04DA AF            [ 4]  882 	xor	a, a
+   04DB F5            [11]  883 	push	af
+   04DC 33            [ 6]  884 	inc	sp
+   04DD E5            [11]  885 	push	hl
+   04DE CDr00r00      [17]  886 	call	_cpct_drawSolidBox
+   04E1 F1            [10]  887 	pop	af
+   04E2 F1            [10]  888 	pop	af
+   04E3 33            [ 6]  889 	inc	sp
+   04E4 C1            [10]  890 	pop	bc
+                            891 ;src/util/tools.c:276: pvideo = cpct_getScreenPtr(CPCT_VMEM_START, x+1, y+4);
+   04E5 DD 56 05      [19]  892 	ld	d, 5 (ix)
+   04E8 14            [ 4]  893 	inc	d
+   04E9 14            [ 4]  894 	inc	d
+   04EA 14            [ 4]  895 	inc	d
+   04EB 14            [ 4]  896 	inc	d
+   04EC C5            [11]  897 	push	bc
+   04ED D5            [11]  898 	push	de
+   04EE 58            [ 4]  899 	ld	e, b
+   04EF D5            [11]  900 	push	de
+   04F0 21 00 C0      [10]  901 	ld	hl, #0xc000
+   04F3 E5            [11]  902 	push	hl
+   04F4 CDr00r00      [17]  903 	call	_cpct_getScreenPtr
+   04F7 D1            [10]  904 	pop	de
+   04F8 C1            [10]  905 	pop	bc
+                            906 ;src/util/tools.c:277: cpct_drawSolidBox (pvideo, 0x3f, width-4, height-6);
+   04F9 DD 7E 07      [19]  907 	ld	a, 7 (ix)
+   04FC C6 FA         [ 7]  908 	add	a, #0xfa
+   04FE 5F            [ 4]  909 	ld	e, a
+   04FF D5            [11]  910 	push	de
+   0500 7B            [ 4]  911 	ld	a, e
+   0501 F5            [11]  912 	push	af
+   0502 33            [ 6]  913 	inc	sp
+   0503 51            [ 4]  914 	ld	d, c
+   0504 1E 3F         [ 7]  915 	ld	e,#0x3f
+   0506 D5            [11]  916 	push	de
+   0507 E5            [11]  917 	push	hl
+   0508 CDr00r00      [17]  918 	call	_cpct_drawSolidBox
+   050B F1            [10]  919 	pop	af
+   050C 33            [ 6]  920 	inc	sp
+   050D DD 66 FE      [19]  921 	ld	h, -2 (ix)
+   0510 DD 6E 04      [19]  922 	ld	l, 4 (ix)
+   0513 E3            [19]  923 	ex	(sp),hl
+   0514 21 00 C0      [10]  924 	ld	hl, #0xc000
+   0517 E5            [11]  925 	push	hl
+   0518 CDr00r00      [17]  926 	call	_cpct_getScreenPtr
+   051B 01 01 02      [10]  927 	ld	bc, #0x0201
+   051E C5            [11]  928 	push	bc
+   051F 3E 55         [ 7]  929 	ld	a, #0x55
+   0521 F5            [11]  930 	push	af
+   0522 33            [ 6]  931 	inc	sp
+   0523 E5            [11]  932 	push	hl
+   0524 CDr00r00      [17]  933 	call	_cpct_drawSolidBox
+   0527 F1            [10]  934 	pop	af
+   0528 F1            [10]  935 	pop	af
+   0529 33            [ 6]  936 	inc	sp
+   052A D1            [10]  937 	pop	de
+                            938 ;src/util/tools.c:285: pvideo = cpct_getScreenPtr(CPCT_VMEM_START, x, y+4);
+   052B D5            [11]  939 	push	de
+   052C D5            [11]  940 	push	de
+   052D 33            [ 6]  941 	inc	sp
+   052E DD 7E 04      [19]  942 	ld	a, 4 (ix)
+   0531 F5            [11]  943 	push	af
+   0532 33            [ 6]  944 	inc	sp
+   0533 21 00 C0      [10]  945 	ld	hl, #0xc000
+   0536 E5            [11]  946 	push	hl
+   0537 CDr00r00      [17]  947 	call	_cpct_getScreenPtr
+   053A D1            [10]  948 	pop	de
+                            949 ;src/util/tools.c:286: cpct_drawSolidBox (pvideo, 0xaa, 1, height-6);
+   053B D5            [11]  950 	push	de
+   053C 7B            [ 4]  951 	ld	a, e
+   053D F5            [11]  952 	push	af
+   053E 33            [ 6]  953 	inc	sp
+   053F 01 AA 01      [10]  954 	ld	bc, #0x01aa
+   0542 C5            [11]  955 	push	bc
+   0543 E5            [11]  956 	push	hl
+   0544 CDr00r00      [17]  957 	call	_cpct_drawSolidBox
+   0547 F1            [10]  958 	pop	af
+   0548 33            [ 6]  959 	inc	sp
+   0549 DD 66 FF      [19]  960 	ld	h, -1 (ix)
+   054C DD 6E 04      [19]  961 	ld	l, 4 (ix)
+   054F E3            [19]  962 	ex	(sp),hl
+   0550 21 00 C0      [10]  963 	ld	hl, #0xc000
+   0553 E5            [11]  964 	push	hl
+   0554 CDr00r00      [17]  965 	call	_cpct_getScreenPtr
+   0557 01 01 02      [10]  966 	ld	bc, #0x0201
+   055A C5            [11]  967 	push	bc
+   055B 3E 55         [ 7]  968 	ld	a, #0x55
+   055D F5            [11]  969 	push	af
+   055E 33            [ 6]  970 	inc	sp
+   055F E5            [11]  971 	push	hl
+   0560 CDr00r00      [17]  972 	call	_cpct_drawSolidBox
+   0563 F1            [10]  973 	pop	af
+   0564 F1            [10]  974 	pop	af
+   0565 33            [ 6]  975 	inc	sp
+   0566 D1            [10]  976 	pop	de
+                            977 ;src/util/tools.c:292: pvideo = cpct_getScreenPtr(CPCT_VMEM_START, x+width-3, y+2);
+   0567 DD 7E 04      [19]  978 	ld	a, 4 (ix)
+   056A DD 86 06      [19]  979 	add	a, 6 (ix)
+   056D C6 FD         [ 7]  980 	add	a, #0xfd
+   056F 4F            [ 4]  981 	ld	c, a
+   0570 C5            [11]  982 	push	bc
+   0571 D5            [11]  983 	push	de
+   0572 DD 46 FE      [19]  984 	ld	b, -2 (ix)
+   0575 C5            [11]  985 	push	bc
+   0576 21 00 C0      [10]  986 	ld	hl, #0xc000
+   0579 E5            [11]  987 	push	hl
+   057A CDr00r00      [17]  988 	call	_cpct_getScreenPtr
+   057D D1            [10]  989 	pop	de
+   057E C1            [10]  990 	pop	bc
+                            991 ;src/util/tools.c:293: cpct_drawSolidBox (pvideo, 0xaa, 1, 2);
+   057F E5            [11]  992 	push	hl
+   0580 FD E1         [14]  993 	pop	iy
+   0582 C5            [11]  994 	push	bc
+   0583 D5            [11]  995 	push	de
+   0584 21 01 02      [10]  996 	ld	hl, #0x0201
+   0587 E5            [11]  997 	push	hl
+   0588 3E AA         [ 7]  998 	ld	a, #0xaa
+   058A F5            [11]  999 	push	af
+   058B 33            [ 6] 1000 	inc	sp
+   058C FD E5         [15] 1001 	push	iy
+   058E CDr00r00      [17] 1002 	call	_cpct_drawSolidBox
+   0591 F1            [10] 1003 	pop	af
+   0592 F1            [10] 1004 	pop	af
+   0593 33            [ 6] 1005 	inc	sp
+   0594 D1            [10] 1006 	pop	de
+   0595 C1            [10] 1007 	pop	bc
+                           1008 ;src/util/tools.c:295: pvideo = cpct_getScreenPtr(CPCT_VMEM_START, x+width-3, y+4);
+   0596 C5            [11] 1009 	push	bc
+   0597 D5            [11] 1010 	push	de
+   0598 59            [ 4] 1011 	ld	e, c
+   0599 D5            [11] 1012 	push	de
+   059A 21 00 C0      [10] 1013 	ld	hl, #0xc000
+   059D E5            [11] 1014 	push	hl
+   059E CDr00r00      [17] 1015 	call	_cpct_getScreenPtr
+   05A1 D1            [10] 1016 	pop	de
+   05A2 7B            [ 4] 1017 	ld	a, e
+   05A3 F5            [11] 1018 	push	af
+   05A4 33            [ 6] 1019 	inc	sp
+   05A5 11 55 01      [10] 1020 	ld	de, #0x0155
+   05A8 D5            [11] 1021 	push	de
+   05A9 E5            [11] 1022 	push	hl
+   05AA CDr00r00      [17] 1023 	call	_cpct_drawSolidBox
+   05AD F1            [10] 1024 	pop	af
+   05AE F1            [10] 1025 	pop	af
+   05AF 33            [ 6] 1026 	inc	sp
+   05B0 C1            [10] 1027 	pop	bc
+                           1028 ;src/util/tools.c:298: pvideo = cpct_getScreenPtr(CPCT_VMEM_START, x+width-3, y+height-2);
+   05B1 DD 46 FF      [19] 1029 	ld	b, -1 (ix)
+   05B4 C5            [11] 1030 	push	bc
+   05B5 21 00 C0      [10] 1031 	ld	hl, #0xc000
+   05B8 E5            [11] 1032 	push	hl
+   05B9 CDr00r00      [17] 1033 	call	_cpct_getScreenPtr
+                           1034 ;src/util/tools.c:299: cpct_drawSolidBox (pvideo, 0xaa, 1, 2);
+   05BC 01 01 02      [10] 1035 	ld	bc, #0x0201
+   05BF C5            [11] 1036 	push	bc
+   05C0 3E AA         [ 7] 1037 	ld	a, #0xaa
+   05C2 F5            [11] 1038 	push	af
+   05C3 33            [ 6] 1039 	inc	sp
+   05C4 E5            [11] 1040 	push	hl
+   05C5 CDr00r00      [17] 1041 	call	_cpct_drawSolidBox
+   05C8 DD F9         [10] 1042 	ld	sp,ix
+   05CA DD E1         [14] 1043 	pop	ix
+   05CC C9            [10] 1044 	ret
+                           1045 	.area _CODE
+                           1046 	.area _INITIALIZER
+                           1047 	.area _CABS (ABS)

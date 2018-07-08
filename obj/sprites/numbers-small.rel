@@ -1,0 +1,89 @@
+XL2
+H 9 areas 10 global symbols
+M numbers_small
+O -mz80
+S .__.ABS. Def0000
+A _CODE size 96 flags 0 addr 0
+S _g_numbers_small_00 Def0000
+S _g_numbers_small_01 Def000A
+S _g_numbers_small_10 Def0064
+S _g_numbers_small_02 Def0014
+S _g_numbers_small_11 Def006E
+S _g_numbers_small_03 Def001E
+S _g_numbers_small_12 Def0078
+S _g_numbers_small_04 Def0028
+S _g_numbers_small_13 Def0082
+S _g_numbers_small_05 Def0032
+S _g_numbers_small_14 Def008C
+S _g_numbers_small_06 Def003C
+S _g_numbers_small_07 Def0046
+S _g_numbers_small_08 Def0050
+S _g_numbers_small_09 Def005A
+A _DATA size 0 flags 0 addr 0
+A _INITIALIZED size 0 flags 0 addr 0
+A _DABS size 0 flags 8 addr 0
+A _HOME size 0 flags 0 addr 0
+A _GSINIT size 0 flags 0 addr 0
+A _GSFINAL size 0 flags 0 addr 0
+A _INITIALIZER size 0 flags 0 addr 0
+A _CABS size 0 flags 8 addr 0
+T 00 00
+R 00 00 00 00
+T 00 00 00 00 00 00 00 00 00 AA 55 00
+R 00 00 00 00
+T 0A 00
+R 00 00 00 00
+T 0A 00 00 00 00 00 55 AA 00 00 00 00
+R 00 00 00 00
+T 14 00
+R 00 00 00 00
+T 14 00 00 00 00 00 00 00 00 00 55 00
+R 00 00 00 00
+T 1E 00
+R 00 00 00 00
+T 1E 00 00 AA 00 AA 55 00 AA 00 AA 00
+R 00 00 00 00
+T 28 00
+R 00 00 00 00
+T 28 00 55 00 AA AA AA AA AA AA 55 00
+R 00 00 00 00
+T 32 00
+R 00 00 00 00
+T 32 00 00 AA 55 AA 00 AA 00 AA 00 AA
+R 00 00 00 00
+T 3C 00
+R 00 00 00 00
+T 3C 00 FF AA 00 AA 55 00 AA 00 FF AA
+R 00 00 00 00
+T 46 00
+R 00 00 00 00
+T 46 00 FF AA 00 AA 55 AA 00 AA FF AA
+R 00 00 00 00
+T 50 00
+R 00 00 00 00
+T 50 00 AA AA AA AA FF AA 00 AA 00 AA
+R 00 00 00 00
+T 5A 00
+R 00 00 00 00
+T 5A 00 FF AA AA 00 FF AA 00 AA FF AA
+R 00 00 00 00
+T 64 00
+R 00 00 00 00
+T 64 00 55 00 AA 00 FF AA AA AA 55 00
+R 00 00 00 00
+T 6E 00
+R 00 00 00 00
+T 6E 00 FF AA 00 AA 55 00 55 00 55 00
+R 00 00 00 00
+T 78 00
+R 00 00 00 00
+T 78 00 55 00 AA AA 55 00 AA AA 55 00
+R 00 00 00 00
+T 82 00
+R 00 00 00 00
+T 82 00 55 00 AA AA 55 AA 00 AA 00 AA
+R 00 00 00 00
+T 8C 00
+R 00 00 00 00
+T 8C 00 00 00 55 00 00 00 55 00 00 00
+R 00 00 00 00

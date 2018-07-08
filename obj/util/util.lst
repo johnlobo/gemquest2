@@ -1,0 +1,110 @@
+ASxxxx Assembler V02.00 + NoICE + SDCC mods  (Zilog Z80 / Hitachi HD64180), page 1.
+Hexadecimal [16-Bits]
+
+
+
+                              1 ;*************************************
+                              2 ; RESET
+                              3 ;*************************************
+                              4 
+                              5 .globl _reset_cpc
+   0000                       6 _reset_cpc::
+   0000 CD 00 00      [17]    7 	call #0000
+   0003 C9            [10]    8 	ret
+                              9 
+                             10 
+                             11 ;*************************************
+                             12 ; FAST ABS
+                             13 ;
+                             14 ; Returns the absolute value of a given u1 number
+                             15 ;*************************************
+                             16 
+                             17 .globl _fast_abs
+   0004                      18 _fast_abs::
+   0004 CB 7C         [ 8]   19      bit 7,h
+   0006 C8            [11]   20      ret z
+   0007 AF            [ 4]   21      xor a 
+   0008 95            [ 4]   22      sub l  
+   0009 6F            [ 4]   23      ld l,a
+   000A 9F            [ 4]   24      sbc a,a  
+   000B 94            [ 4]   25      sub h  
+   000C 67            [ 4]   26      ld h,a
+   000D C9            [10]   27      ret
+                             28 
+                             29 ;******************************
+                             30 ; 	unsigned char fastCollision(unsigned char x1,unsigned char y1,unsigned char w1,unsigned char h1,unsigned char x2,unsigned char y2,unsigned char w2,unsigned char h2){
+                             31 ; 	Descripción:	Devuelve 1 si se ha producido una colisión y 0 en caso contrario
+                             32 ;	Entrada:	- Coordenada x objeto 1
+                             33 ;				- Coordenada y objeto 1
+                             34 ;				- Ancho objeto 1
+                             35 ;				- Alto objeto 1
+                             36 ;				- Coordenada x objeto 1
+                             37 ;				- Coordenada y objeto 1
+                             38 ;				- Ancho objeto 1
+                             39 ;				- Alto objeto 1
+                             40 ;	Salida:		- HL = 1 si se ha producido una colisión, HL = 0 en caso contrario
+                             41 ;	Modificados: 
+                             42 ;
+                             43 ; @ 
+                             44 ;******************************
+                             45 .globl _fast_collision
+   000E                      46 _fast_collision::	
+                             47 
+   000E DD E5         [15]   48 	push ix
+                             49 
+                             50 ;	ld ix,#2
+   0010 DD 21 04 00   [14]   51 	ld ix,#4
+   0014 DD 39         [15]   52 	add ix,sp
+                             53 	
+   0016 DD 7E 00      [19]   54 	ld a,0 (ix)				;recupero la coordenada x1
+   0019 67            [ 4]   55 	ld h,a
+ASxxxx Assembler V02.00 + NoICE + SDCC mods  (Zilog Z80 / Hitachi HD64180), page 2.
+Hexadecimal [16-Bits]
+
+
+
+   001A DD 7E 02      [19]   56 	ld a,2 (ix)				;recupero el ancho 1
+   001D 84            [ 4]   57 	add a,h
+   001E 6F            [ 4]   58 	ld l,a
+   001F DD 7E 04      [19]   59 	ld a,4 (ix)				;recupero la coordenada x2
+   0022 47            [ 4]   60 	ld b,a
+   0023 DD 7E 06      [19]   61 	ld a,6 (ix)				;recupero el ancho 2
+   0026 80            [ 4]   62 	add a,b
+   0027 4F            [ 4]   63 	ld c,a
+   0028 CD 52 00      [17]   64 	call #solseg
+   002B 30 1E         [12]   65 	jr nc, no_choca
+   002D DD 7E 01      [19]   66 	ld a,1 (ix)				;recupero la coordenada y1
+   0030 67            [ 4]   67 	ld h,a
+   0031 DD 7E 03      [19]   68 	ld a,3 (ix)				;recupero el alto 1
+   0034 84            [ 4]   69 	add a,h
+   0035 6F            [ 4]   70 	ld l,a
+   0036 DD 7E 05      [19]   71 	ld a,5 (ix)				;recupero la coordenada y2
+   0039 47            [ 4]   72 	ld b,a
+   003A DD 7E 07      [19]   73 	ld a,7 (ix)				;recupero el alto 2
+   003D 80            [ 4]   74 	add a,b
+   003E 4F            [ 4]   75 	ld c,a
+   003F CD 52 00      [17]   76 	call #solseg
+   0042 30 07         [12]   77 	jr nc, no_choca
+   0044 26 00         [ 7]   78 	ld h,#0
+   0046 2E 01         [ 7]   79 	ld l,#1
+                             80 
+   0048 DD E1         [14]   81 	pop ix
+                             82 
+   004A C9            [10]   83 	ret
+   004B                      84 no_choca:
+   004B 26 00         [ 7]   85 	ld h,#0
+   004D 2E 00         [ 7]   86 	ld l,#0
+                             87 
+   004F DD E1         [14]   88 	pop ix
+                             89 
+   0051 C9            [10]   90 	ret
+                             91 
+   0052                      92 solseg:
+   0052 79            [ 4]   93 	ld a,c					;solapamaiento
+   0053 BC            [ 4]   94 	cp h
+   0054 38 02         [12]   95 	jr c, #solseg1			;no hay colisión continua
+   0056 7D            [ 4]   96 	ld a,l
+   0057 B8            [ 4]   97 	cp b
+   0058                      98 solseg1:
+   0058 3F            [ 4]   99 	ccf						;complemento carry
+   0059 C9            [10]  100 	ret

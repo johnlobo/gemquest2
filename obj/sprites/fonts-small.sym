@@ -1,0 +1,54 @@
+ASxxxx Assembler V02.00 + NoICE + SDCC mods  (Zilog Z80 / Hitachi HD64180), page 1.
+Hexadecimal [16-Bits]
+
+Symbol Table
+
+    .__.$$$.                                                    =  2710 L
+    .__.ABS.                                                    =  0000 G
+    .__.CPU.                                                    =  0000 L
+    .__.H$L.                                                    =  0000 L
+  0 _g_fonts_small_00                                              0000 GR
+  0 _g_fonts_small_01                                              000A GR
+  0 _g_fonts_small_02                                              0014 GR
+  0 _g_fonts_small_03                                              001E GR
+  0 _g_fonts_small_04                                              0028 GR
+  0 _g_fonts_small_05                                              0032 GR
+  0 _g_fonts_small_06                                              003C GR
+  0 _g_fonts_small_07                                              0046 GR
+  0 _g_fonts_small_08                                              0050 GR
+  0 _g_fonts_small_09                                              005A GR
+  0 _g_fonts_small_10                                              0064 GR
+  0 _g_fonts_small_11                                              006E GR
+  0 _g_fonts_small_12                                              0078 GR
+  0 _g_fonts_small_13                                              0082 GR
+  0 _g_fonts_small_14                                              008C GR
+  0 _g_fonts_small_15                                              0096 GR
+  0 _g_fonts_small_16                                              00A0 GR
+  0 _g_fonts_small_17                                              00AA GR
+  0 _g_fonts_small_18                                              00B4 GR
+  0 _g_fonts_small_19                                              00BE GR
+  0 _g_fonts_small_20                                              00C8 GR
+  0 _g_fonts_small_21                                              00D2 GR
+  0 _g_fonts_small_22                                              00DC GR
+  0 _g_fonts_small_23                                              00E6 GR
+  0 _g_fonts_small_24                                              00F0 GR
+  0 _g_fonts_small_25                                              00FA GR
+  0 _g_fonts_small_26                                              0104 GR
+  0 _g_fonts_small_27                                              010E GR
+  0 _g_fonts_small_28                                              0118 GR
+
+ASxxxx Assembler V02.00 + NoICE + SDCC mods  (Zilog Z80 / Hitachi HD64180), page 2.
+Hexadecimal [16-Bits]
+
+Area Table
+
+   0 _CODE                                      size  122   flags    0
+   1 _DATA                                      size    0   flags    0
+   2 _INITIALIZED                               size    0   flags    0
+   3 _DABS                                      size    0   flags    8
+   4 _HOME                                      size    0   flags    0
+   5 _GSINIT                                    size    0   flags    0
+   6 _GSFINAL                                   size    0   flags    0
+   7 _INITIALIZER                               size    0   flags    0
+   8 _CABS                                      size    0   flags    8
+

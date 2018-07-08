@@ -1,0 +1,28 @@
+-mjwx
+-i obj/gemquest2.ihx
+-b _CODE = 0x1000
+-b _DATA = 0x0000
+-u
+-k /home/cabox/workspace/cpctelera/cpctelera/tools/sdcc-3.6.8-r9946/bin/../share/sdcc/lib/z80
+-k /home/cabox/workspace/cpctelera/cpctelera/tools/sdcc-3.6.8-r9946/share/sdcc/lib/z80
+-l /home/cabox/workspace/cpctelera/cpctelera/cpctelera.lib
+-l z80
+obj/sprites/tileset.rel
+obj/sprites/markers.rel
+obj/sprites/border.rel
+obj/sprites/numbers-small.rel
+obj/sprites/font_chars.rel
+obj/sprites/fonts-small.rel
+obj/sprites/tiles.rel
+obj/game.rel
+obj/main.rel
+obj/keyboard/keyboard.rel
+obj/entities/TCombat.rel
+obj/entities/THero.rel
+obj/entities/TNPC.rel
+obj/util/tools.rel
+obj/text/text.rel
+obj/levels/screen00.rel
+obj/util/util.rel
+
+-e

@@ -1,0 +1,392 @@
+                              1 ;--------------------------------------------------------
+                              2 ; File Created by SDCC : free open source ANSI-C Compiler
+                              3 ; Version 3.6.8 #9946 (Linux)
+                              4 ;--------------------------------------------------------
+                              5 	.module fonts_small
+                              6 	.optsdcc -mz80
+                              7 	
+                              8 ;--------------------------------------------------------
+                              9 ; Public variables in this module
+                             10 ;--------------------------------------------------------
+                             11 	.globl _g_fonts_small_28
+                             12 	.globl _g_fonts_small_27
+                             13 	.globl _g_fonts_small_26
+                             14 	.globl _g_fonts_small_25
+                             15 	.globl _g_fonts_small_24
+                             16 	.globl _g_fonts_small_23
+                             17 	.globl _g_fonts_small_22
+                             18 	.globl _g_fonts_small_21
+                             19 	.globl _g_fonts_small_20
+                             20 	.globl _g_fonts_small_19
+                             21 	.globl _g_fonts_small_18
+                             22 	.globl _g_fonts_small_17
+                             23 	.globl _g_fonts_small_16
+                             24 	.globl _g_fonts_small_15
+                             25 	.globl _g_fonts_small_14
+                             26 	.globl _g_fonts_small_13
+                             27 	.globl _g_fonts_small_12
+                             28 	.globl _g_fonts_small_11
+                             29 	.globl _g_fonts_small_10
+                             30 	.globl _g_fonts_small_09
+                             31 	.globl _g_fonts_small_08
+                             32 	.globl _g_fonts_small_07
+                             33 	.globl _g_fonts_small_06
+                             34 	.globl _g_fonts_small_05
+                             35 	.globl _g_fonts_small_04
+                             36 	.globl _g_fonts_small_03
+                             37 	.globl _g_fonts_small_02
+                             38 	.globl _g_fonts_small_01
+                             39 	.globl _g_fonts_small_00
+                             40 ;--------------------------------------------------------
+                             41 ; special function registers
+                             42 ;--------------------------------------------------------
+                             43 ;--------------------------------------------------------
+                             44 ; ram data
+                             45 ;--------------------------------------------------------
+                             46 	.area _DATA
+                             47 ;--------------------------------------------------------
+                             48 ; ram data
+                             49 ;--------------------------------------------------------
+                             50 	.area _INITIALIZED
+                             51 ;--------------------------------------------------------
+                             52 ; absolute external ram data
+                             53 ;--------------------------------------------------------
+                             54 	.area _DABS (ABS)
+                             55 ;--------------------------------------------------------
+                             56 ; global & static initialisations
+                             57 ;--------------------------------------------------------
+                             58 	.area _HOME
+                             59 	.area _GSINIT
+                             60 	.area _GSFINAL
+                             61 	.area _GSINIT
+                             62 ;--------------------------------------------------------
+                             63 ; Home
+                             64 ;--------------------------------------------------------
+                             65 	.area _HOME
+                             66 	.area _HOME
+                             67 ;--------------------------------------------------------
+                             68 ; code
+                             69 ;--------------------------------------------------------
+                             70 	.area _CODE
+                             71 	.area _CODE
+   0000                      72 _g_fonts_small_00:
+   0000 55                   73 	.db #0x55	; 85	'U'
+   0001 00                   74 	.db #0x00	; 0
+   0002 AA                   75 	.db #0xaa	; 170
+   0003 AA                   76 	.db #0xaa	; 170
+   0004 55                   77 	.db #0x55	; 85	'U'
+   0005 AA                   78 	.db #0xaa	; 170
+   0006 00                   79 	.db #0x00	; 0
+   0007 00                   80 	.db #0x00	; 0
+   0008 55                   81 	.db #0x55	; 85	'U'
+   0009 00                   82 	.db #0x00	; 0
+   000A                      83 _g_fonts_small_01:
+   000A 55                   84 	.db #0x55	; 85	'U'
+   000B 00                   85 	.db #0x00	; 0
+   000C AA                   86 	.db #0xaa	; 170
+   000D AA                   87 	.db #0xaa	; 170
+   000E FF                   88 	.db #0xff	; 255
+   000F AA                   89 	.db #0xaa	; 170
+   0010 AA                   90 	.db #0xaa	; 170
+   0011 AA                   91 	.db #0xaa	; 170
+   0012 55                   92 	.db #0x55	; 85	'U'
+   0013 00                   93 	.db #0x00	; 0
+   0014                      94 _g_fonts_small_02:
+   0014 55                   95 	.db #0x55	; 85	'U'
+   0015 00                   96 	.db #0x00	; 0
+   0016 AA                   97 	.db #0xaa	; 170
+   0017 AA                   98 	.db #0xaa	; 170
+   0018 FF                   99 	.db #0xff	; 255
+   0019 AA                  100 	.db #0xaa	; 170
+   001A AA                  101 	.db #0xaa	; 170
+   001B AA                  102 	.db #0xaa	; 170
+   001C AA                  103 	.db #0xaa	; 170
+   001D AA                  104 	.db #0xaa	; 170
+   001E                     105 _g_fonts_small_03:
+   001E FF                  106 	.db #0xff	; 255
+   001F 00                  107 	.db #0x00	; 0
+   0020 AA                  108 	.db #0xaa	; 170
+   0021 AA                  109 	.db #0xaa	; 170
+   0022 FF                  110 	.db #0xff	; 255
+   0023 00                  111 	.db #0x00	; 0
+   0024 AA                  112 	.db #0xaa	; 170
+   0025 AA                  113 	.db #0xaa	; 170
+   0026 FF                  114 	.db #0xff	; 255
+   0027 00                  115 	.db #0x00	; 0
+   0028                     116 _g_fonts_small_04:
+   0028 55                  117 	.db #0x55	; 85	'U'
+   0029 AA                  118 	.db #0xaa	; 170
+   002A AA                  119 	.db #0xaa	; 170
+   002B 00                  120 	.db #0x00	; 0
+   002C AA                  121 	.db #0xaa	; 170
+   002D 00                  122 	.db #0x00	; 0
+   002E AA                  123 	.db #0xaa	; 170
+   002F 00                  124 	.db #0x00	; 0
+   0030 55                  125 	.db #0x55	; 85	'U'
+   0031 AA                  126 	.db #0xaa	; 170
+   0032                     127 _g_fonts_small_05:
+   0032 FF                  128 	.db #0xff	; 255
+   0033 00                  129 	.db #0x00	; 0
+   0034 AA                  130 	.db #0xaa	; 170
+   0035 AA                  131 	.db #0xaa	; 170
+   0036 AA                  132 	.db #0xaa	; 170
+   0037 AA                  133 	.db #0xaa	; 170
+   0038 AA                  134 	.db #0xaa	; 170
+   0039 AA                  135 	.db #0xaa	; 170
+   003A FF                  136 	.db #0xff	; 255
+   003B 00                  137 	.db #0x00	; 0
+   003C                     138 _g_fonts_small_06:
+   003C FF                  139 	.db #0xff	; 255
+   003D AA                  140 	.db #0xaa	; 170
+   003E AA                  141 	.db #0xaa	; 170
+   003F 00                  142 	.db #0x00	; 0
+   0040 FF                  143 	.db #0xff	; 255
+   0041 00                  144 	.db #0x00	; 0
+   0042 AA                  145 	.db #0xaa	; 170
+   0043 00                  146 	.db #0x00	; 0
+   0044 FF                  147 	.db #0xff	; 255
+   0045 AA                  148 	.db #0xaa	; 170
+   0046                     149 _g_fonts_small_07:
+   0046 FF                  150 	.db #0xff	; 255
+   0047 AA                  151 	.db #0xaa	; 170
+   0048 AA                  152 	.db #0xaa	; 170
+   0049 00                  153 	.db #0x00	; 0
+   004A FF                  154 	.db #0xff	; 255
+   004B 00                  155 	.db #0x00	; 0
+   004C AA                  156 	.db #0xaa	; 170
+   004D 00                  157 	.db #0x00	; 0
+   004E AA                  158 	.db #0xaa	; 170
+   004F 00                  159 	.db #0x00	; 0
+   0050                     160 _g_fonts_small_08:
+   0050 55                  161 	.db #0x55	; 85	'U'
+   0051 AA                  162 	.db #0xaa	; 170
+   0052 AA                  163 	.db #0xaa	; 170
+   0053 00                  164 	.db #0x00	; 0
+   0054 AA                  165 	.db #0xaa	; 170
+   0055 AA                  166 	.db #0xaa	; 170
+   0056 AA                  167 	.db #0xaa	; 170
+   0057 AA                  168 	.db #0xaa	; 170
+   0058 55                  169 	.db #0x55	; 85	'U'
+   0059 AA                  170 	.db #0xaa	; 170
+   005A                     171 _g_fonts_small_09:
+   005A AA                  172 	.db #0xaa	; 170
+   005B AA                  173 	.db #0xaa	; 170
+   005C AA                  174 	.db #0xaa	; 170
+   005D AA                  175 	.db #0xaa	; 170
+   005E FF                  176 	.db #0xff	; 255
+   005F AA                  177 	.db #0xaa	; 170
+   0060 AA                  178 	.db #0xaa	; 170
+   0061 AA                  179 	.db #0xaa	; 170
+   0062 AA                  180 	.db #0xaa	; 170
+   0063 AA                  181 	.db #0xaa	; 170
+   0064                     182 _g_fonts_small_10:
+   0064 FF                  183 	.db #0xff	; 255
+   0065 AA                  184 	.db #0xaa	; 170
+   0066 55                  185 	.db #0x55	; 85	'U'
+   0067 00                  186 	.db #0x00	; 0
+   0068 55                  187 	.db #0x55	; 85	'U'
+   0069 00                  188 	.db #0x00	; 0
+   006A 55                  189 	.db #0x55	; 85	'U'
+   006B 00                  190 	.db #0x00	; 0
+   006C FF                  191 	.db #0xff	; 255
+   006D AA                  192 	.db #0xaa	; 170
+   006E                     193 _g_fonts_small_11:
+   006E FF                  194 	.db #0xff	; 255
+   006F AA                  195 	.db #0xaa	; 170
+   0070 55                  196 	.db #0x55	; 85	'U'
+   0071 00                  197 	.db #0x00	; 0
+   0072 55                  198 	.db #0x55	; 85	'U'
+   0073 00                  199 	.db #0x00	; 0
+   0074 55                  200 	.db #0x55	; 85	'U'
+   0075 00                  201 	.db #0x00	; 0
+   0076 FF                  202 	.db #0xff	; 255
+   0077 00                  203 	.db #0x00	; 0
+   0078                     204 _g_fonts_small_12:
+   0078 AA                  205 	.db #0xaa	; 170
+   0079 AA                  206 	.db #0xaa	; 170
+   007A FF                  207 	.db #0xff	; 255
+   007B 00                  208 	.db #0x00	; 0
+   007C FF                  209 	.db #0xff	; 255
+   007D 00                  210 	.db #0x00	; 0
+   007E AA                  211 	.db #0xaa	; 170
+   007F AA                  212 	.db #0xaa	; 170
+   0080 AA                  213 	.db #0xaa	; 170
+   0081 AA                  214 	.db #0xaa	; 170
+   0082                     215 _g_fonts_small_13:
+   0082 AA                  216 	.db #0xaa	; 170
+   0083 00                  217 	.db #0x00	; 0
+   0084 AA                  218 	.db #0xaa	; 170
+   0085 00                  219 	.db #0x00	; 0
+   0086 AA                  220 	.db #0xaa	; 170
+   0087 00                  221 	.db #0x00	; 0
+   0088 AA                  222 	.db #0xaa	; 170
+   0089 00                  223 	.db #0x00	; 0
+   008A FF                  224 	.db #0xff	; 255
+   008B AA                  225 	.db #0xaa	; 170
+   008C                     226 _g_fonts_small_14:
+   008C AA                  227 	.db #0xaa	; 170
+   008D AA                  228 	.db #0xaa	; 170
+   008E FF                  229 	.db #0xff	; 255
+   008F AA                  230 	.db #0xaa	; 170
+   0090 FF                  231 	.db #0xff	; 255
+   0091 AA                  232 	.db #0xaa	; 170
+   0092 AA                  233 	.db #0xaa	; 170
+   0093 AA                  234 	.db #0xaa	; 170
+   0094 AA                  235 	.db #0xaa	; 170
+   0095 AA                  236 	.db #0xaa	; 170
+   0096                     237 _g_fonts_small_15:
+   0096 AA                  238 	.db #0xaa	; 170
+   0097 AA                  239 	.db #0xaa	; 170
+   0098 FF                  240 	.db #0xff	; 255
+   0099 AA                  241 	.db #0xaa	; 170
+   009A FF                  242 	.db #0xff	; 255
+   009B AA                  243 	.db #0xaa	; 170
+   009C FF                  244 	.db #0xff	; 255
+   009D AA                  245 	.db #0xaa	; 170
+   009E AA                  246 	.db #0xaa	; 170
+   009F AA                  247 	.db #0xaa	; 170
+   00A0                     248 _g_fonts_small_16:
+   00A0 55                  249 	.db #0x55	; 85	'U'
+   00A1 00                  250 	.db #0x00	; 0
+   00A2 AA                  251 	.db #0xaa	; 170
+   00A3 AA                  252 	.db #0xaa	; 170
+   00A4 AA                  253 	.db #0xaa	; 170
+   00A5 AA                  254 	.db #0xaa	; 170
+   00A6 AA                  255 	.db #0xaa	; 170
+   00A7 AA                  256 	.db #0xaa	; 170
+   00A8 55                  257 	.db #0x55	; 85	'U'
+   00A9 00                  258 	.db #0x00	; 0
+   00AA                     259 _g_fonts_small_17:
+   00AA FF                  260 	.db #0xff	; 255
+   00AB 00                  261 	.db #0x00	; 0
+   00AC AA                  262 	.db #0xaa	; 170
+   00AD AA                  263 	.db #0xaa	; 170
+   00AE FF                  264 	.db #0xff	; 255
+   00AF 00                  265 	.db #0x00	; 0
+   00B0 AA                  266 	.db #0xaa	; 170
+   00B1 00                  267 	.db #0x00	; 0
+   00B2 AA                  268 	.db #0xaa	; 170
+   00B3 00                  269 	.db #0x00	; 0
+   00B4                     270 _g_fonts_small_18:
+   00B4 55                  271 	.db #0x55	; 85	'U'
+   00B5 00                  272 	.db #0x00	; 0
+   00B6 AA                  273 	.db #0xaa	; 170
+   00B7 AA                  274 	.db #0xaa	; 170
+   00B8 AA                  275 	.db #0xaa	; 170
+   00B9 AA                  276 	.db #0xaa	; 170
+   00BA AA                  277 	.db #0xaa	; 170
+   00BB AA                  278 	.db #0xaa	; 170
+   00BC 55                  279 	.db #0x55	; 85	'U'
+   00BD AA                  280 	.db #0xaa	; 170
+   00BE                     281 _g_fonts_small_19:
+   00BE FF                  282 	.db #0xff	; 255
+   00BF 00                  283 	.db #0x00	; 0
+   00C0 AA                  284 	.db #0xaa	; 170
+   00C1 AA                  285 	.db #0xaa	; 170
+   00C2 FF                  286 	.db #0xff	; 255
+   00C3 00                  287 	.db #0x00	; 0
+   00C4 AA                  288 	.db #0xaa	; 170
+   00C5 AA                  289 	.db #0xaa	; 170
+   00C6 AA                  290 	.db #0xaa	; 170
+   00C7 AA                  291 	.db #0xaa	; 170
+   00C8                     292 _g_fonts_small_20:
+   00C8 FF                  293 	.db #0xff	; 255
+   00C9 AA                  294 	.db #0xaa	; 170
+   00CA AA                  295 	.db #0xaa	; 170
+   00CB 00                  296 	.db #0x00	; 0
+   00CC 55                  297 	.db #0x55	; 85	'U'
+   00CD 00                  298 	.db #0x00	; 0
+   00CE 00                  299 	.db #0x00	; 0
+   00CF AA                  300 	.db #0xaa	; 170
+   00D0 FF                  301 	.db #0xff	; 255
+   00D1 AA                  302 	.db #0xaa	; 170
+   00D2                     303 _g_fonts_small_21:
+   00D2 FF                  304 	.db #0xff	; 255
+   00D3 AA                  305 	.db #0xaa	; 170
+   00D4 55                  306 	.db #0x55	; 85	'U'
+   00D5 00                  307 	.db #0x00	; 0
+   00D6 55                  308 	.db #0x55	; 85	'U'
+   00D7 00                  309 	.db #0x00	; 0
+   00D8 55                  310 	.db #0x55	; 85	'U'
+   00D9 00                  311 	.db #0x00	; 0
+   00DA 55                  312 	.db #0x55	; 85	'U'
+   00DB 00                  313 	.db #0x00	; 0
+   00DC                     314 _g_fonts_small_22:
+   00DC AA                  315 	.db #0xaa	; 170
+   00DD AA                  316 	.db #0xaa	; 170
+   00DE AA                  317 	.db #0xaa	; 170
+   00DF AA                  318 	.db #0xaa	; 170
+   00E0 AA                  319 	.db #0xaa	; 170
+   00E1 AA                  320 	.db #0xaa	; 170
+   00E2 AA                  321 	.db #0xaa	; 170
+   00E3 AA                  322 	.db #0xaa	; 170
+   00E4 FF                  323 	.db #0xff	; 255
+   00E5 AA                  324 	.db #0xaa	; 170
+   00E6                     325 _g_fonts_small_23:
+   00E6 AA                  326 	.db #0xaa	; 170
+   00E7 AA                  327 	.db #0xaa	; 170
+   00E8 AA                  328 	.db #0xaa	; 170
+   00E9 AA                  329 	.db #0xaa	; 170
+   00EA AA                  330 	.db #0xaa	; 170
+   00EB AA                  331 	.db #0xaa	; 170
+   00EC AA                  332 	.db #0xaa	; 170
+   00ED AA                  333 	.db #0xaa	; 170
+   00EE 55                  334 	.db #0x55	; 85	'U'
+   00EF 00                  335 	.db #0x00	; 0
+   00F0                     336 _g_fonts_small_24:
+   00F0 AA                  337 	.db #0xaa	; 170
+   00F1 AA                  338 	.db #0xaa	; 170
+   00F2 AA                  339 	.db #0xaa	; 170
+   00F3 AA                  340 	.db #0xaa	; 170
+   00F4 AA                  341 	.db #0xaa	; 170
+   00F5 AA                  342 	.db #0xaa	; 170
+   00F6 FF                  343 	.db #0xff	; 255
+   00F7 AA                  344 	.db #0xaa	; 170
+   00F8 AA                  345 	.db #0xaa	; 170
+   00F9 AA                  346 	.db #0xaa	; 170
+   00FA                     347 _g_fonts_small_25:
+   00FA AA                  348 	.db #0xaa	; 170
+   00FB AA                  349 	.db #0xaa	; 170
+   00FC AA                  350 	.db #0xaa	; 170
+   00FD AA                  351 	.db #0xaa	; 170
+   00FE 55                  352 	.db #0x55	; 85	'U'
+   00FF 00                  353 	.db #0x00	; 0
+   0100 AA                  354 	.db #0xaa	; 170
+   0101 AA                  355 	.db #0xaa	; 170
+   0102 AA                  356 	.db #0xaa	; 170
+   0103 AA                  357 	.db #0xaa	; 170
+   0104                     358 _g_fonts_small_26:
+   0104 AA                  359 	.db #0xaa	; 170
+   0105 AA                  360 	.db #0xaa	; 170
+   0106 AA                  361 	.db #0xaa	; 170
+   0107 AA                  362 	.db #0xaa	; 170
+   0108 55                  363 	.db #0x55	; 85	'U'
+   0109 00                  364 	.db #0x00	; 0
+   010A 55                  365 	.db #0x55	; 85	'U'
+   010B 00                  366 	.db #0x00	; 0
+   010C 55                  367 	.db #0x55	; 85	'U'
+   010D 00                  368 	.db #0x00	; 0
+   010E                     369 _g_fonts_small_27:
+   010E FF                  370 	.db #0xff	; 255
+   010F AA                  371 	.db #0xaa	; 170
+   0110 00                  372 	.db #0x00	; 0
+   0111 AA                  373 	.db #0xaa	; 170
+   0112 55                  374 	.db #0x55	; 85	'U'
+   0113 00                  375 	.db #0x00	; 0
+   0114 AA                  376 	.db #0xaa	; 170
+   0115 00                  377 	.db #0x00	; 0
+   0116 FF                  378 	.db #0xff	; 255
+   0117 AA                  379 	.db #0xaa	; 170
+   0118                     380 _g_fonts_small_28:
+   0118 FF                  381 	.db #0xff	; 255
+   0119 AA                  382 	.db #0xaa	; 170
+   011A FF                  383 	.db #0xff	; 255
+   011B AA                  384 	.db #0xaa	; 170
+   011C FF                  385 	.db #0xff	; 255
+   011D AA                  386 	.db #0xaa	; 170
+   011E FF                  387 	.db #0xff	; 255
+   011F AA                  388 	.db #0xaa	; 170
+   0120 FF                  389 	.db #0xff	; 255
+   0121 AA                  390 	.db #0xaa	; 170
+                            391 	.area _INITIALIZER
+                            392 	.area _CABS (ABS)

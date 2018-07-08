@@ -1,0 +1,35 @@
+XL2
+H 9 areas 2 global symbols
+M screen00
+O -mz80
+S .__.ABS. Def0000
+A _CODE size 77 flags 0 addr 0
+S _g_tilemap Def0000
+A _DATA size 0 flags 0 addr 0
+A _INITIALIZED size 0 flags 0 addr 0
+A _DABS size 0 flags 8 addr 0
+A _HOME size 0 flags 0 addr 0
+A _GSINIT size 0 flags 0 addr 0
+A _GSFINAL size 0 flags 0 addr 0
+A _INITIALIZER size 0 flags 0 addr 0
+A _CABS size 0 flags 8 addr 0
+T 00 00
+R 00 00 00 00
+T 00 00 50 00 00 05 00 00 05 00 00 00 00 00 00 00
+R 00 00 00 00
+T 0E 00 00 44 44 44 44 44 00 00 44 49 AA 44 44 00
+R 00 00 00 00
+T 1C 00 00 44 B1 11 84 44 00 00 4C 11 11 1A 9A 00
+R 00 00 00 00
+T 2A 00 50 4C 12 34 11 11 11 00 4C 15 15 11 11 11
+R 00 00 00 00
+T 38 00 50 4C 15 15 11 11 11 00 4C 11 11 11 11 11
+R 00 00 00 00
+T 46 00 00 4C 11 11 11 11 11 00 4C 11 11 11 11 11
+R 00 00 00 00
+T 54 00 00 44 F0 00 00 F0 00 00 44 44 44 44 44 00
+R 00 00 00 00
+T 62 00 00 44 44 44 44 44 00 00 00 00 00 00 00 05
+R 00 00 00 00
+T 70 00 50 00 55 50 55 50 05
+R 00 00 00 00

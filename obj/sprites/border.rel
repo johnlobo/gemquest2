@@ -1,0 +1,54 @@
+XL2
+H 9 areas 9 global symbols
+M border
+O -mz80
+S .__.ABS. Def0000
+A _CODE size 40 flags 0 addr 0
+S _g_border_0 Def0000
+S _g_border_1 Def0008
+S _g_border_2 Def0010
+S _g_border_3 Def0018
+S _g_border_4 Def0020
+S _g_border_5 Def0028
+S _g_border_6 Def0030
+S _g_border_7 Def0038
+A _DATA size 0 flags 0 addr 0
+A _INITIALIZED size 0 flags 0 addr 0
+A _DABS size 0 flags 8 addr 0
+A _HOME size 0 flags 0 addr 0
+A _GSINIT size 0 flags 0 addr 0
+A _GSFINAL size 0 flags 0 addr 0
+A _INITIALIZER size 0 flags 0 addr 0
+A _CABS size 0 flags 8 addr 0
+T 00 00
+R 00 00 00 00
+T 00 00 15 3F 2F 0F 2F 0F 2F 0A
+R 00 00 00 00
+T 08 00
+R 00 00 00 00
+T 08 00 3F 2A 0F 1F 0F 1F 05 1F
+R 00 00 00 00
+T 10 00
+R 00 00 00 00
+T 10 00 2F 0A 2F 0F 2F 0F 15 3F
+R 00 00 00 00
+T 18 00
+R 00 00 00 00
+T 18 00 05 1F 0F 1F 0F 1F 3F 2A
+R 00 00 00 00
+T 20 00
+R 00 00 00 00
+T 20 00 3F 3F 0F 0F 0F 0F 00 00
+R 00 00 00 00
+T 28 00
+R 00 00 00 00
+T 28 00 2F 0A 2F 0A 2F 0A 2F 0A
+R 00 00 00 00
+T 30 00
+R 00 00 00 00
+T 30 00 05 1F 05 1F 05 1F 05 1F
+R 00 00 00 00
+T 38 00
+R 00 00 00 00
+T 38 00 00 00 0F 0F 0F 0F 3F 3F
+R 00 00 00 00
